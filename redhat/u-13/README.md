@@ -57,16 +57,9 @@ fi
 <hr/>
 ### 2.2 Replace-field
 
+시스템에서 마운트된 모든 파일 시스템과 그 옵션을 확인하고자 할 때 /proc/mounts 파일을 조회할 수도 있습니다. 이 파일은 현재 마운트된 파일 시스템의 실시간 목록을 제공합니다:
 ```
-curl -X POST -H 'Content-type:application/json' --data-binary '{
-  "replace-field":{
-     "name":"logMessage",
-     "type":"keyword_analysis",
-     "multiValued":false,
-     "indexed":true,
-     "required":false,
-     "stored":true}
-}' http://localhost:8983/solr/syslog/schema
+cat /proc/mounts | grep /home
 ```
 
 <hr/>
