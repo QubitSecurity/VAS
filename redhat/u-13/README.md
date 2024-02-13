@@ -1,15 +1,13 @@
-## 1. Solr
+## 2. 파일 및 디렉토리 관리
 
-### 1.1 Run
+### SUID, SGID, 설정 파일점검
 
 주기적인 감사 방법 (SUID/SGID 설정된 의심스러운 파일 확인)
 ```
 find / -xdev -user root -type f \( -perm -04000 -o -perm -02000 \) -exec ls –al {} \;
 ```
 
-## 2. Solr
-
-### 2.1 Add-field-type
+### nodev와 nosuid 설정 파일점검
 
 nodev와 nosuid 옵션이 적절하게 설정되지 않은 파일 시스템을 찾았을 때 "F"를 출력
 ```
