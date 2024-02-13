@@ -2,9 +2,10 @@
 
 ### 1.1 Run
 
-    ~/solr/bin/solr start -cloud
-
-    ~/solr/bin/solr stop
+주기적인 감사 방법 (SUID/SGID 설정된 의심스러운 파일 확인)
+```
+find / -xdev -user root -type f \( -perm -04000 -o -perm -02000 \) -exec ls –al {} \;
+```
 
 ## 2. Solr
 
