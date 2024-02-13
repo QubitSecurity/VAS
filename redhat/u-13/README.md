@@ -40,7 +40,7 @@ for fs in "${check_filesystems[@]}"; do
     fs_result="F"
     overall_result="F"
   else
-    echo "    nodev option is set for $fs."
+    echo "    T - nodev option is set for $fs."
   fi
   
   # nosuid 옵션 점검
@@ -50,7 +50,7 @@ for fs in "${check_filesystems[@]}"; do
     fs_result="F"
     overall_result="F"
   else
-    echo "    nosuid option is set for $fs."
+    echo "    T - nosuid option is set for $fs."
   fi
   
   count=$((count + 1))
