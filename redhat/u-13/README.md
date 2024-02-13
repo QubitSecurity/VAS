@@ -53,6 +53,24 @@ else
   echo "F - One or more filesystems are incorrectly configured."
 fi
 ```
+
+Example
+```
+F - /tmp does not have 'nodev' option set.
+drwxrwxrwt. 8 root root 172 Feb 14 03:09 /tmp
+F - /tmp does not have 'nosuid' option set.
+drwxrwxrwt. 8 root root 172 Feb 14 03:09 /tmp
+F - /var/tmp does not have 'nodev' option set.
+drwxrwxrwt. 3 root root 85 Jul 29  2023 /var/tmp
+F - /var/tmp does not have 'nosuid' option set.
+drwxrwxrwt. 3 root root 85 Jul 29  2023 /var/tmp
+F - /home does not have 'nodev' option set.
+drwxr-xr-x. 2 root root 6 Apr 11  2018 /home
+F - /home does not have 'nosuid' option set.
+drwxr-xr-x. 2 root root 6 Apr 11  2018 /home
+F - One or more filesystems are incorrectly configured.
+```
+
 <hr/>
 ### 2.2 Replace-field
 
