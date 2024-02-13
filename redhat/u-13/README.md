@@ -62,7 +62,6 @@ if [ "$overall_result" == "T" ]; then
 else
   echo "[Status] F - One or more filesystems are incorrectly configured."
 fi
-
 ```
 
 Example
@@ -83,9 +82,11 @@ Example
 ```
 
 <hr/>
+
 ### 2.2 Replace-field
 
-시스템에서 마운트된 모든 파일 시스템과 그 옵션을 확인하고자 할 때 /proc/mounts 파일을 조회할 수도 있습니다. 이 파일은 현재 마운트된 파일 시스템의 실시간 목록을 제공합니다:
+시스템에서 마운트된 모든 파일 시스템과 그 옵션을 확인하고자 할 때 /proc/mounts 파일을 조회할 수 있습니다. 
+다음은 현재 마운트된 파일 시스템의 실시간 목록을 제공합니다:
 
 nodev와 nosuid 설정이 없으면 출력 없음
 ```
