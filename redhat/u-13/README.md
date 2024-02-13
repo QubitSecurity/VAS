@@ -67,19 +67,19 @@ fi
 
 Example
 ```
-F - /tmp does not have 'nodev' option set.
-drwxrwxrwt. 8 root root 172 Feb 14 03:09 /tmp
-F - /tmp does not have 'nosuid' option set.
-drwxrwxrwt. 8 root root 172 Feb 14 03:09 /tmp
-F - /var/tmp does not have 'nodev' option set.
-drwxrwxrwt. 3 root root 85 Jul 29  2023 /var/tmp
-F - /var/tmp does not have 'nosuid' option set.
-drwxrwxrwt. 3 root root 85 Jul 29  2023 /var/tmp
-F - /home does not have 'nodev' option set.
-drwxr-xr-x. 2 root root 6 Apr 11  2018 /home
-F - /home does not have 'nosuid' option set.
-drwxr-xr-x. 2 root root 6 Apr 11  2018 /home
-F - One or more filesystems are incorrectly configured.
+[1] Checking /dev/shm for nodev and nosuid options...
+    T - nodev option is set for /dev/shm.
+    T - nosuid option is set for /dev/shm.
+[2] Checking /tmp for nodev and nosuid options...
+    F - /tmp does not have 'nodev' option set.
+    F - /tmp does not have 'nosuid' option set.
+[3] Checking /var/tmp for nodev and nosuid options...
+    F - /var/tmp does not have 'nodev' option set.
+    F - /var/tmp does not have 'nosuid' option set.
+[4] Checking /home for nodev and nosuid options...
+    F - /home does not have 'nodev' option set.
+    F - /home does not have 'nosuid' option set.
+[Status] F - One or more filesystems are incorrectly configured.
 ```
 
 <hr/>
