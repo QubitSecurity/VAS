@@ -7,6 +7,8 @@
 find / -xdev -user root -type f \( -perm -04000 -o -perm -02000 \) -exec ls –al {} \;
 ```
 
+<hr/>
+
 ### nodev와 nosuid 설정 파일점검
 
 nodev와 nosuid 옵션이 적절하게 설정되지 않은 파일 시스템을 찾았을 때 "F"를 출력
