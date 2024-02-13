@@ -24,34 +24,45 @@ check_filesystems=(
 # 전체 점검 결과를 저장할 변수
 overall_result="T"
 
-# nodev와 nosuid 옵션 점검
+# nodev와 nosuid 옵션 점검 시작
+count=1
 for fs in "${check_filesystems[@]}"; do
+  echo "[$count] Checking $fs for nodev and nosuid options..."
+  
   # 마운트된 파일 시스템의 옵션 확인
   mount_options=$(mount | grep " on $fs " | awk '{print $6}')
+  fs_result="T"
   
   # nodev 옵션 점검
   if [[ $mount_options != *nodev* ]]; then
-    echo "F - $fs does not have 'nodev' option set."
+    echo "    F - $fs does not have 'nodev' option set."
+    # ls -ld $fs
+    fs_result="F"
     overall_result="F"
-    # 문제가 있는 파일 시스템의 상세 정보 출력
-    ls -ld $fs
+  else
+    echo "    nodev option is set for $fs."
   fi
   
   # nosuid 옵션 점검
   if [[ $mount_options != *nosuid* ]]; then
-    echo "F - $fs does not have 'nosuid' option set."
+    echo "    F - $fs does not have 'nosuid' option set."
+    # ls -ld $fs
+    fs_result="F"
     overall_result="F"
-    # 문제가 있는 파일 시스템의 상세 정보 출력
-    ls -ld $fs
+  else
+    echo "    nosuid option is set for $fs."
   fi
+  
+  count=$((count + 1))
 done
 
 # 모든 파일 시스템이 적절하게 설정되었는지 최종 결과 출력
-if [ $overall_result == "T" ]; then
-  echo "T - All filesystems are correctly configured with 'nodev' and 'nosuid' options."
+if [ "$overall_result" == "T" ]; then
+  echo "[Status] T - All filesystems are correctly configured with 'nodev' and 'nosuid' options."
 else
-  echo "F - One or more filesystems are incorrectly configured."
+  echo "[Status] F - One or more filesystems are incorrectly configured."
 fi
+
 ```
 
 Example
@@ -75,84 +86,22 @@ F - One or more filesystems are incorrectly configured.
 ### 2.2 Replace-field
 
 시스템에서 마운트된 모든 파일 시스템과 그 옵션을 확인하고자 할 때 /proc/mounts 파일을 조회할 수도 있습니다. 이 파일은 현재 마운트된 파일 시스템의 실시간 목록을 제공합니다:
+
+nodev와 nosuid 설정이 없으면 출력 없음
 ```
 cat /proc/mounts | grep /home
+```
+
+nodev와 nosuid 설정이 있으면 해당 내용 출력
+```
+cat /proc/mounts | grep /dev/shm
+tmpfs /dev/shm tmpfs rw,seclabel,nosuid,nodev 0 0
 ```
 
 <hr/>
 
 ```
-{
-  "replace-field-type": {
-    "name": "msg_analysis",
-    "class": "solr.TextField",
-    "positionIncrementGap": "100",
-    "indexAnalyzer": {
-      "charFilters": [
-          {
-            "class": "solr.PatternReplaceCharFilterFactory",
-            "pattern": "\"",
-            "replacement": ""
-          },
-          {
-            "class": "solr.PatternReplaceCharFilterFactory",
-            "pattern": "'",
-            "replacement": ""
-          },
-          {
-            "class": "solr.PatternReplaceCharFilterFactory",
-            "pattern": "msg=audit\\([^)]+\\):",
-            "replacement": ""
-          },
-          {
-            "class": "solr.PatternReplaceCharFilterFactory",
-            "pattern": "msg=",
-            "replacement": ""
-          }
-      ],
-      "tokenizer": {
-        "class": "solr.StandardTokenizerFactory"
-      },
-      "filters": [
-        {
-          "class": "solr.LowerCaseFilterFactory"
-        },
-        {
-          "class": "solr.EdgeNGramFilterFactory",
-          "maxGramSize": "20",
-          "minGramSize": "2"
-        },
-        {
-          "class": "solr.StopFilterFactory",
-          "ignoreCase": "true",
-          "words": "stopwords.txt"
-        },
-        {
-          "class": "solr.SynonymGraphFilterFactory",
-          "synonyms": "synonyms.txt",
-          "ignoreCase": "true",
-          "expand": "true"
-        }
-      ]
-    },
-    "queryAnalyzer": {
-      "tokenizer": {
-        "class": "solr.KeywordTokenizerFactory"
-      },
-      "filters": [
-        {
-          "class": "solr.LowerCaseFilterFactory"
-        },
-        {
-          "class": "solr.SynonymGraphFilterFactory",
-          "synonyms": "synonyms.txt",
-          "ignoreCase": "true",
-          "expand": "true"
-        }
-      ]
-    }
-  }
-}
+ABC
 ```
 
 <hr/>
