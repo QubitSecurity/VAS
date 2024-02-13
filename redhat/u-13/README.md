@@ -33,12 +33,16 @@ for fs in "${check_filesystems[@]}"; do
   if [[ $mount_options != *nodev* ]]; then
     echo "F - $fs does not have 'nodev' option set."
     overall_result="F"
+    # 문제가 있는 파일 시스템의 상세 정보 출력
+    ls -ld $fs
   fi
   
   # nosuid 옵션 점검
   if [[ $mount_options != *nosuid* ]]; then
     echo "F - $fs does not have 'nosuid' option set."
     overall_result="F"
+    # 문제가 있는 파일 시스템의 상세 정보 출력
+    ls -ld $fs
   fi
 done
 
@@ -48,7 +52,6 @@ if [ $overall_result == "T" ]; then
 else
   echo "F - One or more filesystems are incorrectly configured."
 fi
-
 ```
 <hr/>
 ### 2.2 Replace-field
