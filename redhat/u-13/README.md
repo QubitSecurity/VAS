@@ -2,13 +2,11 @@
 
 ### SUID, SGID, 설정 파일 점검
 
-<span style="font-size: 12px;">
-<li>
-SUID(Special User ID) 및 SGID(Special Group ID): 이 설정은 실행 파일이 실행될 때, 파일의 소유자나 그룹의 권한으로 실행되도록 합니다. 이 기능은 특정 작업을 수행하기 위해 일시적으로 권한을 상승시킬 필요가 있을 때 유용하지만, 잘못 관리될 경우 보안 취약점이 될 수 있습니다. 따라서, 시스템에서 불필요하게 SUID/SGID 비트가 설정된 파일을 찾아 제거하거나, 필요한 경우에만 사용하도록 관리하는 점검이 필요합니다.
-</li>
-</span>
+- SUID(Special User ID) 및 SGID(Special Group ID): 이 설정은 실행 파일이 실행될 때, 파일의 소유자나 그룹의 권한으로 실행되도록 합니다. 이 기능은 특정 작업을 수행하기 위해 일시적으로 권한을 상승시킬 필요가 있을 때 유용하지만, 잘못 관리될 경우 보안 취약점이 될 수 있습니다. 따라서, 시스템에서 불필요하게 SUID/SGID 비트가 설정된 파일을 찾아 제거하거나, 필요한 경우에만 사용하도록 관리하는 점검이 필요합니다.
 
+<span style="font-size: 12px;">
 주기적인 감사 방법 (SUID/SGID 설정된 의심스러운 파일 확인)
+</span>
 ```
 find / -xdev -user root -type f \( -perm -04000 -o -perm -02000 \) -exec ls –al {} \;
 ```
