@@ -6,7 +6,7 @@
 
 ### 1. iptables 또는 firewalld
 
-- `iptables`: 이전 버전의 RHEL에서 널리 사용되는 방화벽 도구입니다. iptables는 패킷 필터링 규칙을 설정하여 특정 IP 주소나 포트로의 접근을 허용하거나 차단할 수 있습니다.
+- `iptables`:RHEL 7 이하에서 사용되는 방화벽 도구입니다. iptables는 패킷 필터링 규칙을 설정하여 특정 IP 주소나 포트로의 접근을 허용하거나 차단할 수 있습니다.
   - IP 주소 기반의 접근 제한 예: `iptables -A INPUT -s 192.168.1.100 -j ACCEPT`
   - 포트 기반의 접근 제한 예: `iptables -A INPUT -p tcp --dport 22 -j ACCEPT`
 - `firewalld`: RHEL 7 이상에서 기본적으로 사용되는 동적 방화벽 관리 도구입니다. firewalld는 iptables보다 더 유연하고 사용하기 쉬운 구성을 제공합니다.
