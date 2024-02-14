@@ -18,7 +18,7 @@ RHEL 각 버전에 따라 제공되는 방화벽 관리 도구에 차이가 있�
 ### 2. /etc/hosts.allow 및 /etc/hosts.deny (TCP Wrappers)
 
 - `TCP Wrappers`: 일부 서비스에 대해 IP 주소 기반의 접근 제어를 제공합니다. `/etc/hosts.allow`와 `/etc/hosts.deny` 파일을 통해 허용하거나 거부할 호스트를 지정할 수 있습니다.
-  - 특정 IP에서의 SSH 접근만 허용하려면 /etc/hosts.allow에 다음과 같이 추가: `sshd: 192.168.1.100`
+  - 특정 IP에서의 SSH 접근만 허용하려면 `/etc/hosts.allow`에 다음과 같이 추가: `sshd: 192.168.1.100`
   - `/etc/hosts.deny`에는 모든 다른 접근을 거부하도록 설정 제한: `sshd: ALL`
 
 <hr/>
