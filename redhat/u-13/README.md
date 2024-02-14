@@ -55,7 +55,7 @@ for fs in "${check_filesystems[@]}"; do
   if [[ $mount_options != *nosuid* ]]; then
     echo "    V - $fs does not have 'nosuid' option set."
     # ls -ld $fs
-    fs_result="F"
+    fs_result="V"
     overall_result="V"
   else
     echo "    S - nosuid option is set for $fs."
