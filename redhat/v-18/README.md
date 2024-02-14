@@ -1,0 +1,31 @@
+## 2. 파일 및 디렉토리 관리
+
+### 2.14 접속 IP 및 포트 제한
+
+- `SUID(Special User ID) 및 SGID(Special Group ID)`: 이 설정은 실행 파일이 실행될 때, 파일의 소유자나 그룹의 권한으로 실행되도록 합니다. 이 기능은 특정 작업을 수행하기 위해 일시적으로 권한을 상승시킬 필요가 있을 때 유용하지만, 잘못 관리될 경우 보안 취약점이 될 수 있습니다. 따라서, 시스템에서 불필요하게 SUID/SGID 비트가 설정된 파일을 찾아 제거하거나, 필요한 경우에만 사용하도록 관리하는 점검이 필요합니다.
+
+주기적인 감사 방법 (SUID/SGID 설정된 의심스러운 파일 확인)
+
+```
+find / -xdev -user root -type f \( -perm -04000 -o -perm -02000 \) -exec ls –al {} \;
+```
+
+<hr/>
+
+### 1. iptables 또는 firewalld
+
+- `iptables`: 이전 버전의 RHEL에서 널리 사용되는 방화벽 도구입니다. iptables는 패킷 필터링 규칙을 설정하여 특정 IP 주소나 포트로의 접근을 허용하거나 차단할 수 있습니다.
+  - IP 주소 기반의 접근 제한 예: `iptables -A INPUT -s 192.168.1.100 -j ACCEPT`
+  - 포트 기반의 접근 제한 예: `iptables -A INPUT -p tcp --dport 22 -j ACCEPT`
+- `firewalld`: RHEL 7 이상에서 기본적으로 사용되는 동적 방화벽 관리 도구입니다. firewalld는 iptables보다 더 유연하고 사용하기 쉬운 구성을 제공합니다.
+  - 특정 소스 IP에서 오는 접근 허용: `firewall-cmd --permanent --add-rich-rule='rule family="ipv4" source address="192.168.1.100" accept'`
+  - 특정 포트에 대한 접근 허용: `firewall-cmd --permanent --add-port=22/tcp`
+
+
+### 2. /etc/hosts.allow 및 /etc/hosts.deny (TCP Wrappers)
+
+- `TCP Wrappers`: 일부 서비스에 대해 IP 주소 기반의 접근 제어를 제공합니다. `/etc/hosts.allow`와 `/etc/hosts.deny` 파일을 통해 허용하거나 거부할 호스트를 지정할 수 있습니다.
+  - 특정 IP에서의 SSH 접근만 허용하려면 /etc/hosts.allow에 다음과 같이 추가 예: `sshd: 192.168.1.100`
+  - `/etc/hosts.deny`에는 모든 다른 접근을 거부하도록 설정 제한 예: `sshd: ALL`
+
+<hr/>
