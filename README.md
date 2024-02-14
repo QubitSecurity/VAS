@@ -1,1 +1,5 @@
 # VAS
+
+출력 결과값 표기 
+- S : Secure
+- V : Vulnerable
