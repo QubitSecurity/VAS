@@ -108,25 +108,3 @@ tmpfs /dev/shm tmpfs rw,seclabel,nosuid,nodev 0 0
 ```
 
 <hr/>
-
-```
-ABC
-```
-
-<hr/>
-
-```
-curl -X POST -H "Content-type: application/json" --data-binary @schema_syslog_msg.json http://localhost:8983/solr/syslog/schema
-```
-
-<hr/>
-
-```
-c
-```
-
-<hr/>
-
-```
-d
-```
