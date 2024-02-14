@@ -17,7 +17,7 @@ find / -xdev -user root -type f \( -perm -04000 -o -perm -02000 \) -exec ls –a
 - `nodev 옵션`: 파일 시스템을 마운트할 때 이 옵션을 사용하면, 해당 파일 시스템에서 특수 장치 파일의 생성을 방지할 수 있습니다. 이는 시스템의 보안을 강화하는 데 도움이 됩니다.
 - `nosuid 옵션`: 마찬가지로, 파일 시스템을 마운트할 때 이 옵션을 사용하면, 해당 파일 시스템에서 SUID 및 SGID 비트가 설정된 파일을 통한 권한 상승을 방지할 수 있습니다. 이는 SUID/SGID 설정 파일 점검과 직접적으로 관련이 있으며, 특히 공유 파일 시스템이나 사용자가 많이 접근하는 디렉토리에서 중요합니다.
 
-nodev와 nosuid 옵션이 적절하게 설정되었다면 "T", 설정되지 않은 파일 시스템을 찾았을 때 "F" 출력
+nodev와 nosuid 옵션이 적절하게 설정되었다면 "S", 설정되지 않은 파일 시스템을 찾았을 때 "V" 출력
 ```
 #!/bin/bash
 
@@ -30,7 +30,7 @@ check_filesystems=(
 )
 
 # 전체 점검 결과를 저장할 변수
-overall_result="T"
+overall_result="S"
 
 # nodev와 nosuid 옵션 점검 시작
 count=1
@@ -39,54 +39,54 @@ for fs in "${check_filesystems[@]}"; do
   
   # 마운트된 파일 시스템의 옵션 확인
   mount_options=$(mount | grep " on $fs " | awk '{print $6}')
-  fs_result="T"
+  fs_result="S"
   
   # nodev 옵션 점검
   if [[ $mount_options != *nodev* ]]; then
     echo "    F - $fs does not have 'nodev' option set."
     # ls -ld $fs
-    fs_result="F"
-    overall_result="F"
+    fs_result="V"
+    overall_result="V"
   else
-    echo "    T - nodev option is set for $fs."
+    echo "    S - nodev option is set for $fs."
   fi
   
   # nosuid 옵션 점검
   if [[ $mount_options != *nosuid* ]]; then
-    echo "    F - $fs does not have 'nosuid' option set."
+    echo "    V - $fs does not have 'nosuid' option set."
     # ls -ld $fs
     fs_result="F"
-    overall_result="F"
+    overall_result="V"
   else
-    echo "    T - nosuid option is set for $fs."
+    echo "    S - nosuid option is set for $fs."
   fi
   
   count=$((count + 1))
 done
 
 # 모든 파일 시스템이 적절하게 설정되었는지 최종 결과 출력
-if [ "$overall_result" == "T" ]; then
-  echo "[Status] T - All filesystems are correctly configured with 'nodev' and 'nosuid' options."
+if [ "$overall_result" == "S" ]; then
+  echo "[Status] S - All filesystems are correctly configured with 'nodev' and 'nosuid' options."
 else
-  echo "[Status] F - One or more filesystems are incorrectly configured."
+  echo "[Status] V - One or more filesystems are incorrectly configured."
 fi
 ```
 
 Example
 ```
 [1] Checking /dev/shm for nodev and nosuid options...
-    T - nodev option is set for /dev/shm.
-    T - nosuid option is set for /dev/shm.
+    S - nodev option is set for /dev/shm.
+    S - nosuid option is set for /dev/shm.
 [2] Checking /tmp for nodev and nosuid options...
-    F - /tmp does not have 'nodev' option set.
-    F - /tmp does not have 'nosuid' option set.
+    V - /tmp does not have 'nodev' option set.
+    V - /tmp does not have 'nosuid' option set.
 [3] Checking /var/tmp for nodev and nosuid options...
-    F - /var/tmp does not have 'nodev' option set.
-    F - /var/tmp does not have 'nosuid' option set.
+    V - /var/tmp does not have 'nodev' option set.
+    V - /var/tmp does not have 'nosuid' option set.
 [4] Checking /home for nodev and nosuid options...
-    F - /home does not have 'nodev' option set.
-    F - /home does not have 'nosuid' option set.
-[Status] F - One or more filesystems are incorrectly configured.
+    V - /home does not have 'nodev' option set.
+    V - /home does not have 'nosuid' option set.
+[Status] V - One or more filesystems are incorrectly configured.
 ```
 
 <hr/>
