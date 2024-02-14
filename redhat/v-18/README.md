@@ -25,7 +25,7 @@ RHEL 각 버전에 따라 제공되는 방화벽 관리 도구에 차이가 있�
 
 ### x. "Chain INPUT (policy ACCEPT)" 검사의 필요성
 
-`iptables -L | grep -qv "Chain INPUT (policy ACCEPT)"` 명령어의 핵심은 시스템의 iptables 방화벽 설정 중 INPUT 체인의 기본 정책(policy)이 ACCEPT로 설정되어 있는지 여부를 확인하는 것입니다. 여기서 `"Chain INPUT (policy ACCEPT)"` 문자열이 없다면 (grep -qv), 이는 INPUT 체인의 기본 정책이 ACCEPT가 아님을 의미합니다.
+`iptables -L | grep -qv "Chain INPUT (policy ACCEPT)"` 명령어의 핵심은 시스템의 iptables 방화벽 설정 중 INPUT 체인의 기본 정책(policy)이 ACCEPT로 설정되어 있는지 여부를 확인하는 것입니다. 여기서 `"Chain INPUT (policy ACCEPT)"` 문자열이 없다면 `(grep -qv)`, 이는 INPUT 체인의 기본 정책이 ACCEPT가 아님을 의미합니다.
 
 - `보안 강화`:  iptables의 INPUT 체인에 대한 기본 정책을 ACCEPT로 설정하면, 명시적으로 차단하지 않은 모든 인바운드(들어오는) 트래픽이 시스템으로 허용됩니다. 이는 잠재적 보안 위험을 높일 수 있습니다. 따라서, 기본 정책을 ACCEPT가 아닌 DROP 또는 REJECT로 설정하는 것이 일반적으로 더 안전한 접근 방식입니다. 이렇게 설정하면, 명시적으로 허용된 규칙에 매칭되지 않는 모든 트래픽이 기본적으로 차단됩니다.
 - `명시적 허용 규칙의 필요성`: 기본 정책이 ACCEPT가 아닐 경우, 시스템으로의 접근을 허용하려면 명시적인 허용 규칙을 설정해야 합니다. 이는 네트워크 보안을 강화하는 데 도움이 되며, 관리자가 네트워크 트래픽에 대해 더 세밀한 제어를 할 수 있게 합니다.
