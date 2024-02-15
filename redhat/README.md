@@ -13,3 +13,7 @@
 #### `U-06` 
 
 <hr/>
+
+출력 결과값 표기 
+- S : Secure
+- V : Vulnerable
