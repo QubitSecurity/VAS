@@ -1,7 +1,7 @@
 # VAS
 Vulnerability Assessment Scanner
 
-### U-01 | root계정 원격 접속 제한
+### `U-01` | root계정 원격 접속 제한
 
 ### U-02
 #### 패스워드 복잡성 설정
