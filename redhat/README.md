@@ -1,7 +1,7 @@
 ## Linux
 
 #### `U-01`  `상`  root 계정 원격 접속 제한
-- <span style="font-size: smaller;">원격 터미널 서비스를 사용하지 않거나, 사용 시 root 직접 접속을 차단한 경우</span>
+- <span style="font-size: 14px;">원격 터미널 서비스를 사용하지 않거나, 사용 시 root 직접 접속을 차단한 경우</span>
 
 #### `U-02`  `상`  패스워드 복잡성 설정
 
