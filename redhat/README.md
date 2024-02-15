@@ -18,6 +18,12 @@
 
 <hr/>
 
+#### `U-21` `상`
+- 불필요한 r 계열 서비스가 비활성화 되어 있는 경우
+- ex) rsh, rlogin, rexec (shell, login, exec)
+
+<hr/>
+
 출력 결과값 표기 
 - S : Secure
 - V : Vulnerable
