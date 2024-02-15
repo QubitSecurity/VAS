@@ -1,10 +1,6 @@
 # VAS
 Vulnerability Assessment Scanner
 
-출력 결과값 표기 
-- S : Secure
-- V : Vulnerable
-
 ## U-01 | 상
 
 ### root계정 원격 접속 제한
@@ -28,3 +24,9 @@ Vulnerability Assessment Scanner
 ## U-06 | 상
 
 ### 
+
+<hr/>
+
+출력 결과값 표기 
+- S : Secure
+- V : Vulnerable
