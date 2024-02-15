@@ -1,10 +1,6 @@
 # VAS v.2021.3
 Vulnerability Assessment Scanner
 
-출력 결과값 표기 
-- S : Secure
-- V : Vulnerable
-
 <hr/>
 
 참고 사이트
