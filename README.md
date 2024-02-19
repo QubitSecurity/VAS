@@ -1,5 +1,5 @@
 # VAS
-### Current: v.2021.3
+### Current: v.2021.03
 Vulnerability Assessment Scanner
 
 <hr/>
