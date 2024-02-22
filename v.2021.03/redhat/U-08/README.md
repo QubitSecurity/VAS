@@ -49,7 +49,6 @@ Linux redhat-vas 3.10.0-1160.71.1.el7.x86_64 #1 SMP Tue Jun 28 15:37:28 UTC 2022
 - `ident:x:98:98::/home/ident:/sbin/nologin` : inetd에서 구동되는 데몬
 - `nobody:x:99:99:Nobody:/:/sbin/nologin` : 익명 연결 (웹 서비스 등 누구나 연결 가능한 서비스 사용 시)
 - `nfsnobody:x:65534:65534:Anonymous` : NFS User:/var/lib/nfs:/sbin/nologin
-
-- UID 100이하 또는 60000이상의 계정들은 시스템 계정으로 로그인이 필요없음
+* UID 100이하 또는 60000이상의 계정들은 시스템 계정으로 로그인이 필요없음
   
 <hr/>
