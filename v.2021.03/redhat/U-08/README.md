@@ -4,7 +4,7 @@
 # uname -a
 Linux 014044-redhat-vas 3.10.0-1160.71.1.el7.x86_64 #1 SMP Tue Jun 28 15:37:28 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
 ```
-- `cat /etc/passwd`
+`cat /etc/passwd`
 - `lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin` : 로컬 프린트 서버
 - `sync:x:5:0:sync:/sbin:/bin/sync` : 원격지 서버 동기화
 - `shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown` : soft 시스템 종료
