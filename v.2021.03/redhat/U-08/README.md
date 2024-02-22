@@ -14,6 +14,8 @@ Linux redhat-vas 3.10.0-1160.71.1.el7.x86_64 #1 SMP Tue Jun 28 15:37:28 UTC 2022
 - `games:x:12:100:games:/usr/games:/sbin/nologin`
 - `ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin` : ftp 사용 시 필요
 
+![예제 이미지](images/U-08_05-Appendix.png)
+
 <hr/>
 
 - `lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin` : 로컬 프린트 서버
