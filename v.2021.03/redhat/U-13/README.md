@@ -12,6 +12,14 @@ find / -xdev -user root -type f \( -perm -04000 -o -perm -02000 \) -exec ls –a
 
 <hr/>
 
+### 부록 06. 불필요한 SUID/SGID 목록 설명 (154p)
+
+- `/sbin/dump`: Backup/Restore
+- `/sbin/restore`: Backup/Restore
+
+
+<hr/>
+
 ### nodev와 nosuid 설정 파일 점검
 
 - `nodev 옵션`: 파일 시스템을 마운트할 때 이 옵션을 사용하면, 해당 파일 시스템에서 특수 장치 파일의 생성을 방지할 수 있습니다. 이는 시스템의 보안을 강화하는 데 도움이 됩니다.
