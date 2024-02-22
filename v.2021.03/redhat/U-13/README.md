@@ -14,9 +14,22 @@ find / -xdev -user root -type f \( -perm -04000 -o -perm -02000 \) -exec ls –a
 
 ### 부록 06. 불필요한 SUID/SGID 목록 설명 (154p)
 
-- `/sbin/dump`: Backup/Restore
-- `/sbin/restore`: Backup/Restore
-
+- `/sbin/dump` : Backup/Restore
+- `/sbin/restore` : Backup/Restore
+- `/sbin/dump` : Backup/Restore
+- `/sbin/restore` : Backup/Restore
+- `/sbin/unix_chkpwd` : 사용자의 암호가 읽을 수 없는 장소에 보관되는 경우 사용자의 암호를 검사해주는 프로그램. 이 프로그램을 호출한 사용자의 암호를 검사해주는 역할만 함
+- `/usr/bin/at` : 지정된 시간에 실행할 작업을 입력하고, 대기 목록을 확인하고, 제거하는 명령어
+- `/usr/bin/lpq` : 라인프린터 작업 큐 조회 명령어
+- `/usr/bin/lpq-lpd` : DAEMON
+- `/usr/bin/lpr` : 콘솔환경에서 명시된 파일을 인쇄할 때 사용
+- `/usr/bin/lpr-lpd` : DAEMON
+- `/usr/bin/lprm` : lpq 명령어로 볼 수 있는 작업 큐를 살펴보고 해당하는 작업을 취소하거나 작업 번호를 지정하여 작업 번호에 해당하는 큐를 삭제
+- `/usr/bin/lprm-lpd` : DAEMON
+- `/usr/bin/newgrp` : 현재 세션의 사용자 그룹 변경(지정한 그룹의 쉘로 환경이 바로 변경)
+- `/usr/sbin/lpc` : 커맨드 기반의 프린터 제어
+- `/usr/sbin/lpc-lpd` : DAEMON
+- `/usr/sbin/traceroute` : 네트워크 경로 출력
 
 <hr/>
 
