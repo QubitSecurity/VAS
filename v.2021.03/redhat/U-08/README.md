@@ -16,7 +16,7 @@ Linux redhat-vas 3.10.0-1160.71.1.el7.x86_64 #1 SMP Tue Jun 28 15:37:28 UTC 2022
 
 #### 예제 이미지
 
-![예제 이미지](images/U-08_05-Appendix.png)
+![/etc/passwd](images/U-08_05-Appendix.png)
 
 <hr/>
 
