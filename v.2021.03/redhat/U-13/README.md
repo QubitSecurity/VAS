@@ -31,6 +31,9 @@ find / -xdev -user root -type f \( -perm -04000 -o -perm -02000 \) -exec ls –a
 - `/usr/sbin/lpc-lpd` : DAEMON
 - `/usr/sbin/traceroute` : 네트워크 경로 출력
 
+#### 목록
+- https://github.com/QubitSecurity/VAS/blob/main/v.2021.03/redhat/U-13/u-13-list.txt
+
 <hr/>
 
 ### nodev와 nosuid 설정 파일 점검
