@@ -5,6 +5,17 @@
 - `shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown` : soft 시스템 종료
 - `halt:x:7:0:halt:/sbin:/sbin/halt` : 강제 시스템 종료
 - `mail:x:8:12:mail:/var/spool/mail:/sbin/nologin` : 메일 서비스 계정
+- `operator:x:11:0:operator:/root:/sbin/nologin` : 설정에 따라 다르지만 /etc/syslog.conf 에 대해서 daemon.err operator라고 표기되어 있다면 데몬 관련 에러를 operator 계정을 이용해 출력하라는 의미임
+- `games:x:12:100:games:/usr/games:/sbin/nologin`
+- `ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin` : ftp 사용 시 필요
+
+<hr/>
+
+- `lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin` : 로컬 프린트 서버
+- `sync:x:5:0:sync:/sbin:/bin/sync` : 원격지 서버 동기화
+- `shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown` : soft 시스템 종료
+- `halt:x:7:0:halt:/sbin:/sbin/halt` : 강제 시스템 종료
+- `mail:x:8:12:mail:/var/spool/mail:/sbin/nologin` : 메일 서비스 계정
 - `news:x:9:13:news:/etc/news:/sbin/nologin`
 - `uucp:x:10:14:uucp:/var/spool/uucp:/sbin/nologin` : 유닉스 시스템 간 파일을 복사 프로토콜
 - `operator:x:11:0:operator:/root:/sbin/nologin` : 설정에 따라 다르지만 /etc/syslog.conf 에 대해서 daemon.err operator라고 표기되어 있다면 데몬 관련 에러를 operator 계정을 이용해 출력하라는 의미임
