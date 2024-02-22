@@ -16,8 +16,6 @@ find / -xdev -user root -type f \( -perm -04000 -o -perm -02000 \) -exec ls –a
 
 - `/sbin/dump` : Backup/Restore
 - `/sbin/restore` : Backup/Restore
-- `/sbin/dump` : Backup/Restore
-- `/sbin/restore` : Backup/Restore
 - `/sbin/unix_chkpwd` : 사용자의 암호가 읽을 수 없는 장소에 보관되는 경우 사용자의 암호를 검사해주는 프로그램. 이 프로그램을 호출한 사용자의 암호를 검사해주는 역할만 함
 - `/usr/bin/at` : 지정된 시간에 실행할 작업을 입력하고, 대기 목록을 확인하고, 제거하는 명령어
 - `/usr/bin/lpq` : 라인프린터 작업 큐 조회 명령어
