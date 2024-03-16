@@ -4,7 +4,6 @@
 
 ```
 php -f whois.php
-
 ```
 
 <hr/>
