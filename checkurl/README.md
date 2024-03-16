@@ -1,36 +1,44 @@
 # check url
 
-### 1. Status 200
+## 1. Current status
+
+### 1.1 Status 200
 Return: OK | WARNING
 ```
 php -f status.php
 ```
 
-### S. Expiry Date Domain
+### 1.2 Expiry Date Domain
 Unit: day(s)
 ```
 php -f whois.php
 ```
 
-### 3. Expiry Date SSL
+### 1.3 Expiry Date SSL
 Unit: day(s)
 ```
 php -f ssl.php
 ```
 
-### 4. Response size
+### 1.4 Response size
 Unit: bytes
 
 ```
 php -f respSize.php
 ```
 
-### 5. Response speed
+### 1.5 Response speed
 Unit: ms (millisecond)
 
 ```
 php -f respSpeed.php
 ```
-
-
 <hr/>
+
+## 2. Detail info
+
+### 2.1 SSL
+
+```
+php -f infoSSL.php
+```
