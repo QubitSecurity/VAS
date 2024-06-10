@@ -1,4 +1,4 @@
-# Error
+# Error Keyword
 
 ### 1. 일반적인 SQL 데이터베이스 에러 키워드
 
