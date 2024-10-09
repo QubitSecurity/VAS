@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Sysmon" Guid="{5770385f-c22a-43e0-bf4c-06f5698ffbd9}"/>
+    <EventID>1</EventID>
+    <Version>5</Version>
+    <Level>4</Level>
+    <Task>1</Task>
+    <Opcode>0</Opcode>
+    <Keywords>0x8000000000000000</Keywords>
+    <TimeCreated SystemTime="2024-10-08T06:19:20.4155782Z"/>
+    <EventRecordID>1154451</EventRecordID>
+    <Correlation/>
+    <Execution ProcessID="5264" ThreadID="8136"/>
+    <Channel>Microsoft-Windows-Sysmon/Operational</Channel>
+    <Computer></Computer>
+    <Security UserID="S-1-5-18"/>
+  </System>
+  <EventData>
+    <Data Name="RuleName">-</Data>
+    <Data Name="UtcTime">2024-10-08 06:19:20.408</Data>
+    <Data Name="ProcessGuid">{36e4bc94-cee8-6704-850c-000000003900}</Data>
+    <Data Name="ProcessId">15192</Data>
+    <Data Name="Image">C:\Windows\SysWOW64\cmd.exe</Data>
+    <Data Name="FileVersion">10.0.22621.3672 (WinBuild.160101.0800)</Data>
+    <Data Name="Description">Windows Command Processor</Data>
+    <Data Name="Product">Microsoft® Windows® Operating System</Data>
+    <Data Name="Company">Microsoft Corporation</Data>
+    <Data Name="OriginalFileName">Cmd.Exe</Data>
+    <Data Name="CommandLine">"C:\Windows\system32\cmd.exe" /c schtasks /Delete /TN CriticalUpdate(LUR) /F</Data>
+    <Data Name="CurrentDirectory">C:\Windows\system32\</Data>
+    <Data Name="User">231105</Data>
+    <Data Name="LogonGuid">{36e4bc94-b5e4-6704-da7b-370000000000}</Data>
+    <Data Name="LogonId">0x377bda</Data>
+    <Data Name="TerminalSessionId">1</Data>
+    <Data Name="IntegrityLevel">High</Data>
+    <Data Name="Hashes">SHA1=644AB16399A5DF1FDE6D3B2849FB89E41CA203A7,MD5=7B2C2B671D3F48A01B334A0070DEC0BD,SHA256=10534828EEEE98A71887CA8675DBCB000CC1F46472AE817E210C86BA3E28B65D,IMPHASH=FD97AFEC4DC549DCD1FE1DAD15035DF9</Data>
+    <Data Name="ParentProcessGuid">{36e4bc94-ced6-6704-810c-000000003900}</Data>
+    <Data Name="ParentProcessId">1352</Data>
+    <Data Name="ParentImage">C:\Program Files (x86)\LG Software\LG Update\URAlarm.exe</Data>
+    <Data Name="ParentCommandLine">"C:\Program Files (x86)\LG Software\LG Update\URAlarm.exe"  TRAYREQUIRED</Data>
+    <Data Name="ParentUser">231105</Data>
+  </EventData>
+</Event>
