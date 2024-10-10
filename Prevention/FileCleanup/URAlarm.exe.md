@@ -4,7 +4,7 @@
    - **Provider Name**: "Microsoft-Windows-Sysmon" - 이 로그는 Microsoft의 Sysmon에 의해 생성되었습니다.
    - **EventID**: 1 - 프로세스 생성 이벤트를 나타내며, 새로운 프로세스가 시작되었음을 의미합니다.
    - **TimeCreated**: 2024-10-08T06:19:20.4155782Z - 이 이벤트가 발생한 시간(UTC)입니다.
-   - **Computer**: BABAGROUP-SSK - 로그가 생성된 컴퓨터의 이름입니다.
+   - **Computer**: - 로그가 생성된 컴퓨터의 이름입니다.
    - **UserID**: S-1-5-18 - 로컬 시스템 계정으로 이벤트가 발생했습니다.
 
 ### 2. **이벤트 데이터 (EventData 태그)**
@@ -17,7 +17,7 @@
    - **Description**: "Windows Command Processor" - `cmd.exe`의 설명입니다.
    - **CommandLine**: `"C:\Windows\system32\cmd.exe" /c schtasks /Delete /TN CriticalUpdate(LUR) /F` - 실행 시 사용된 명령어입니다. 이 명령어는 **"CriticalUpdate(LUR)"라는 작업 스케줄러 작업을 강제로 삭제**합니다.
    - **CurrentDirectory**: `C:\Windows\system32\` - 프로세스가 실행된 현재 디렉터리입니다.
-   - **User**: `BABAGROUP-SSK\BA231105` - 이 프로세스를 실행한 사용자의 계정입니다.
+   - **User**: `231105` - 이 프로세스를 실행한 사용자의 계정입니다.
    - **IntegrityLevel**: High - 프로세스가 높은 무결성 수준에서 실행되었음을 나타냅니다. (관리자 권한)
    - **Hashes**: `cmd.exe` 파일의 해시 값들입니다.
      - **SHA1**: 644AB16399A5DF1FDE6D3B2849FB89E41CA203A7
@@ -30,7 +30,7 @@
    - **ParentProcessId**: 1352 - 부모 프로세스의 ID입니다.
    - **ParentImage**: `C:\Program Files (x86)\LG Software\LG Update\URAlarm.exe` - 부모 프로세스 파일의 경로입니다. LG의 소프트웨어 업데이트 관련 프로세스인 **URAlarm.exe**가 `cmd.exe`를 실행한 것입니다.
    - **ParentCommandLine**: `"C:\Program Files (x86)\LG Software\LG Update\URAlarm.exe" TRAYREQUIRED` - 부모 프로세스가 실행된 명령어입니다.
-   - **ParentUser**: `BABAGROUP-SSK\BA231105` - 부모 프로세스를 실행한 사용자의 계정입니다.
+   - **ParentUser**: `231105` - 부모 프로세스를 실행한 사용자의 계정입니다.
 
 ### 요약:
 이 로그는 **LG Software의 URAlarm.exe** 프로세스가 **cmd.exe**를 실행하여, **Windows 작업 스케줄러에 등록된 "CriticalUpdate(LUR)" 작업을 강제로 삭제**한 이벤트를 기록한 것입니다. 실행된 `cmd.exe`는 **높은 무결성 수준(관리자 권한)**에서 실행되었으며, 사용자는 **231105**입니다.
