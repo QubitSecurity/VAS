@@ -11,3 +11,5 @@
 #### 1) **[Windows Script Host (`wscript.exe`, `cscript.exe`)](https://github.com/QubitSecurity/VAS/blob/main/Prevention/FileCleanup/URAlarm.exe.md)**
     - **기능:** VBScript 또는 JScript로 작성된 스크립트 실행.
     - **악용:** 다양한 유해 동작을 수행하는 악성 스크립트 실행.
+
+### 3. [**안티바이러스 제품의 윈도우 이벤트 로그 연동**](https://github.com/QubitSecurity/VAS/blob/main/Prevention/AntiVirus.md)
