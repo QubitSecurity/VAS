@@ -1,7 +1,7 @@
 # VAS
 
 ### Technical Vulnerability Assessment for Critical Information and Communications Infrastructure (CICI)
-    - Current: v.2021.03
+> Current: v.2021.03
 
 ---
 
