@@ -1,4 +1,4 @@
-# 📘 Technical Vulnerability Assessment for Critical Information and Communications Infrastructure (CICI)
+## 📘 Technical Vulnerability Assessment for Critical Information and Communications Infrastructure (CICI)
 
 This directory contains security checklists for **Windows environments**, based on the March 2021 version of the "Technical Vulnerability Assessment Guide for Critical Information and Communications Infrastructure (CICI)" in Korean. The files are categorized by operating system type, including separate profiles for servers, desktops, and isolated desktop environments.
 
