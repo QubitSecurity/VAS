@@ -54,14 +54,14 @@ Windows 10 및 11 환경에서 **EDR(Endpoint Detection and Response)** 관점�
 
 ### 4. **네트워크·파일 공유 및 접근 제어 (Network & Access Control)**
 
-| No | 항목 코드 | 자동/수동 | 평가 등급                 | 비고 (판단 조건 및 설명)                                      |
-| -- | ----- | ----- | --------------------- | ---------------------------------------------------- |
-| 21 | W-07  | 수동    | 📝 Manual Review      | 공유 폴더 권한 및 그룹 구성 확인은 사람이 직접 판단해야 함                   |
-| 22 | W-08  | 자동    | ✅ Secure / ❌ Insecure | 기본 공유(C\$, D\$ 등) 존재 여부로 자동 평가 가능                    |
-| 23 | W-42  | 자동    | ✅ Secure / ❌ Insecure | `RestrictAnonymous = 1`이면 Secure, 0 또는 없음이면 Insecure |
-| 24 | W-54  | 자동    | ✅ Secure / ❌ Insecure | `TurnOffAnonymousBlock = 0`이면 Secure, 아니면 Insecure   |
-| 25 | W-57  | 수동    | 📝 Manual Review      | RDP 사용자 그룹 구성은 사람이 판단해야 하며 자동으로 보안 여부 판단 불가          |
-| 26 | W-67  | 수동    | 📝 Manual Review      | 세션 타임아웃 정책은 그룹 정책 설정 여부 확인이 필요하며 수동 검토 필요            |
+| No | 항목 코드 | 설명                   | English Description                                 | 평가 등급                 | 비고 (판단 조건 및 설명)                                      |
+| -- | ----- | -------------------- | --------------------------------------------------- | --------------------- | ---------------------------------------------------- |
+| 21 | W-07  | 공유 권한 및 사용자 그룹 설정    | Configure share permissions and user groups         | 📝 Manual Review      | 공유 폴더 권한 및 그룹 구성 확인은 사람이 직접 판단해야 함                   |
+| 22 | W-08  | 하드디스크 기본 공유 제거       | Disable default hard disk sharing                   | ✅ Secure / ❌ Insecure | 기본 공유(C\$, D\$ 등) 존재 여부로 자동 평가 가능                    |
+| 23 | W-42  | SAM 계정과 공유의 익명 열거 차단 | Block anonymous enumeration of SAM accounts/shares  | ✅ Secure / ❌ Insecure | `RestrictAnonymous = 1`이면 Secure, 0 또는 없음이면 Insecure |
+| 24 | W-54  | 익명 SID/이름 변환 해제      | Disable anonymous SID/name translation              | ✅ Secure / ❌ Insecure | `TurnOffAnonymousBlock = 0`이면 Secure, 아니면 Insecure   |
+| 25 | W-57  | 원격터미널 접속 사용자 제한      | Limit users allowed for remote terminal connections | 📝 Manual Review      | RDP 사용자 그룹 구성은 사람이 판단해야 하며 자동으로 보안 여부 판단 불가          |
+| 26 | W-67  | 원격터미널 세션 타임아웃 설정     | Set timeout for remote terminal sessions            | 📝 Manual Review      | 세션 타임아웃 정책은 그룹 정책 설정 여부 확인이 필요하며 수동 검토 필요            |
 
 > **이유:** lateral movement·정보 열람·RDP 해킹 등 공격 경로 차단.
 
