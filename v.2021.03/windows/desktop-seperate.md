@@ -69,14 +69,13 @@ Windows 10 및 11 환경에서 **EDR(Endpoint Detection and Response)** 관점�
 
 ### 5. **보안 소프트웨어·업데이트 및 암호화 (Security Software, Updates & Encryption)**
 
-| No | 항목 코드 | 설명                   | English Description                                 | 평가 등급                 | 비고 (판단 조건 및 설명)                                      |
-| -- | ----- | -------------------- | --------------------------------------------------- | --------------------- | ---------------------------------------------------- |
-| 21 | W-07  | 공유 권한 및 사용자 그룹 설정    | Configure share permissions and user groups         | 📝 Manual Review      | 공유 폴더 권한 및 그룹 구성 확인은 사람이 직접 판단해야 함                   |
-| 22 | W-08  | 하드디스크 기본 공유 제거       | Disable default hard disk sharing                   | ✅ Secure / ❌ Insecure | 기본 공유(C\$, D\$ 등) 존재 여부로 자동 평가 가능                    |
-| 23 | W-42  | SAM 계정과 공유의 익명 열거 차단 | Block anonymous enumeration of SAM accounts/shares  | ✅ Secure / ❌ Insecure | `RestrictAnonymous = 1`이면 Secure, 0 또는 없음이면 Insecure |
-| 24 | W-54  | 익명 SID/이름 변환 해제      | Disable anonymous SID/name translation              | ✅ Secure / ❌ Insecure | `TurnOffAnonymousBlock = 0`이면 Secure, 아니면 Insecure   |
-| 25 | W-57  | 원격터미널 접속 사용자 제한      | Limit users allowed for remote terminal connections | 📝 Manual Review      | RDP 사용자 그룹 구성은 사람이 판단해야 하며 자동으로 보안 여부 판단 불가          |
-| 26 | W-67  | 원격터미널 세션 타임아웃 설정     | Set timeout for remote terminal sessions            | 📝 Manual Review      | 세션 타임아웃 정책은 그룹 정책 설정 여부 확인이 필요하며 수동 검토 필요            |
+| No | 항목 코드 | 설명                          | English Description                             | 평가 등급                                    | 비고 (스크립트 로직에 기반한 판단 기준)                                                |
+| -- | ----- | --------------------------- | ----------------------------------------------- | ---------------------------------------- | ---------------------------------------------------------------------- |
+| 27 | W-31  | 최신 서비스팩 적용                  | Apply latest service packs                      | 📝 Manual Review                         | 서비스팩 최신 적용 여부는 OS 버전과 빌드 비교가 필요하므로 수동 검토 필요                            |
+| 28 | W-32  | 최신 HOT FIX 적용               | Apply latest hotfixes                           | 📝 Manual Review                         | Hotfix 적용 여부 확인은 `Get-HotFix` 또는 WSUS 정책 확인이 필요하므로 수동 판단 필요            |
+| 29 | W-33  | 백신 프로그램 업데이트                | Keep antivirus up to date                       | ❌ Insecure / 📝 Manual Review            | 백신 존재 시 정의 업데이트는 수동 판단, 백신 없으면 Insecure                                |
+| 30 | W-36  | 백신 프로그램 설치                  | Install antivirus software                      | ✅ Secure / ❌ Insecure                    | 백신 제품 설치 여부만 확인하므로 자동 판단 가능                                            |
+| 31 | W-45  | 디스크 볼륨 암호화 설정 (BitLocker 등) | Enable disk volume encryption (e.g., BitLocker) | ✅ Secure / ❌ Insecure / 📝 Manual Review | BitLocker 존재 시 보호 상태에 따라 Secure/Insecure 판단, 명령어 불가 시 Manual Review 필요 |
 
 > **이유:** 제로데이 대응력 및 기기 도난·랜섬웨어 피해 최소화 목적.
 
