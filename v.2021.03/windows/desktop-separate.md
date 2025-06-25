@@ -75,7 +75,7 @@ Windows 10 및 11 환경에서 **EDR(Endpoint Detection and Response)** 관점�
 | 28 | W-32  | 최신 HOT FIX 적용               | Apply latest hotfixes                           | 📝 Manual Review                         | Hotfix 적용 여부 확인은 `Get-HotFix` 또는 WSUS 정책 확인이 필요하므로 수동 판단 필요            |
 | 29 | W-33  | 백신 프로그램 업데이트                | Keep antivirus up to date                       | ❌ Insecure / 📝 Manual Review            | 백신 존재 시 정의 업데이트는 수동 판단, 백신 없으면 Insecure                                |
 | 30 | W-36  | 백신 프로그램 설치                  | Install antivirus software                      | ✅ Secure / ❌ Insecure                    | 백신 제품 설치 여부만 확인하므로 자동 판단 가능                                            |
-| 31 | W-45  | 디스크 볼륨 암호화 설정 (BitLocker 등) | Enable disk volume encryption (e.g., BitLocker) | ✅ Secure / ❌ Insecure / 📝 Manual Review | BitLocker 존재 시 보호 상태에 따라 Secure/Insecure 판단, 명령어 불가 시 Manual Review 필요 |
+| 31 | W-45 | 디스크 볼륨 암호화 설정 (BitLocker 등) | Enable disk volume encryption (e.g., BitLocker) | ✅ Secure / ❌ Insecure / 📝 Manual Review | BitLocker가 설치되어 있고 상태 확인 가능한 경우 보호 상태에 따라 Secure/Insecure 판단. 시스템에 BitLocker 기능이 없거나 명령어 사용이 불가한 경우에는 Manual Review로 처리. |
 
 > **이유:** 제로데이 대응력 및 기기 도난·랜섬웨어 피해 최소화 목적.
 
