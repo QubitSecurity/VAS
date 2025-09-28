@@ -133,7 +133,7 @@ Get-WinEvent -LogName Security |
 ## 5) 통합 Sysmon 설정 (XML) — *아웃바운드 + 자식 생성 동시 수집*
 
 **파일명:** `sysmon_w3wp_outbound_children.xml`
-**목적:** `w3wp.exe`의 **외부 연결(Initiated=true)**과 **자식 프로세스 생성**만 기록. 내부망/루프백/링크로컬 제외.
+**목적:** `w3wp.exe`의 **외부 연결**(Initiated=true)과 **자식 프로세스 생성**만 기록. 내부망/루프백/링크로컬 제외.
 
 ```xml
 <!-- sysmon_w3wp_outbound_children.xml -->
