@@ -44,8 +44,8 @@ PowerShell에선 보통 아래 문자열로 설정합니다. ([Microsoft Learn][
 | 1 | 드라이버/커널 | 01Driver | 취약한 서명 드라이버 악용 차단 | Block abuse of exploited vulnerable signed drivers | `56a863a9-875e-4185-98a7-b882c64b5ce5` |
 | 2 | 문서 리더 | 02Document Reader | Adobe Reader 자식 프로세스 차단 | Block Adobe Reader from creating child processes | `7674ba52-37eb-4a4f-a9a1-f0f9a1619a2c` |
 | 3 | Office | 03OfficeChild | **Office 자식 프로세스 차단** | Block all Office applications from creating child processes | `d4f940ab-401b-4efc-aadc-ad5f3c50688a` |
-| 4 | 자격증명 | 0dCredential | LSASS 자격 증명 도용 차단 | Block credential stealing from the Windows local security authority subsystem (lsass.exe) | `9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2` |
-| 5 | 메일 | 0dEmail | 메일/웹메일 실행 파일 콘텐츠 차단 | Block executable content from email client and webmail | `be9ba2d9-53ea-4cdc-84e5-9b1eeee46550` |
+| 4 | 자격증명 | 04Credential | LSASS 자격 증명 도용 차단 | Block credential stealing from the Windows local security authority subsystem (lsass.exe) | `9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2` |
+| 5 | 메일 | 05Email | 메일/웹메일 실행 파일 콘텐츠 차단 | Block executable content from email client and webmail | `be9ba2d9-53ea-4cdc-84e5-9b1eeee46550` |
 | 6 | 실행/평판 | 06Execution | 평판/연령/신뢰 조건 미충족 실행 파일 차단 | Block executable files from running unless they meet a prevalence, age, or trusted list criterion | `01443614-cd74-433a-b99e-2ecdc07bfc25` |
 | 7 | 스크립트 | 07Script | **난독 스크립트 차단** | Block execution of potentially obfuscated scripts | `5beb7efe-fd9a-4556-801d-275e5ffc04cc` |
 | 8 | 스크립트/다운로더 | 08Downloader | JS/VBS가 다운로드 실행파일 실행하는 행위 차단 | Block JavaScript or VBScript from launching downloaded executable content | `d3e037e1-3eb8-44c8-a917-57927947596d` |
