@@ -35,6 +35,7 @@
 | 웹쉘 (WebShell)                     | Web Shell                          | Webシェル                   |
 | XML 외부 개체 (XXE)                   | XML External Entity (XXE)          | XML外部エンティティ（XXE）         |
 | 블랙리스트 규칙                          | Blacklist Rule                     | ブラックリストルール               |
+| 사용자 정의 타입                         | Custom                        | カスタム                  |
 
 ---
 
@@ -77,4 +78,4 @@ XML外部エンティティ（XXE）
 ```
 
 ---
-\
+
