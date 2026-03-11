@@ -91,8 +91,7 @@
 
 #### `W-44` `상` 이동식 미디어 포맷 및 꺼내기 허용
 
-#### [W-45](https://github.com/qubitsec/VAS/blob/patch-1/windows/new_server/%5BW-45%5D%20%EB%94%94%EC%8A%A4%ED%81%AC%20%EB%B3%BC%EB%A5%A8%20%EC%95%94%ED%98%B8%ED%99%94%20%EC%84%A4%EC%A0%95.md)
- `상` 디스크 볼륨 암호화 설정
+#### [W-45](https://github.com/qubitsec/VAS/blob/patch-1/windows/new_server/%5BW-45%5D%20%EB%94%94%EC%8A%A4%ED%81%AC%20%EB%B3%BC%EB%A5%A8%20%EC%95%94%ED%98%B8%ED%99%94%20%EC%84%A4%EC%A0%95.md) `상` 디스크 볼륨 암호화 설정
 
 #### `W-46` `중` Everyone 사용권한을 익명 사용자에 적용 해제
 
