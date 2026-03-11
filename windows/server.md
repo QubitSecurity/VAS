@@ -4,7 +4,7 @@
 
 #### `W-01` `상` Administrator 계정 이름 변경 또는 보안성 강화
 
-## [W-01] Administrator 계정 이름 변경 (계정_스크립트)
+## [W-01](https://github.com/qubitsec/VAS/blob/patch-1/windows/new_server/%5BW-01%5D%20Administrator%20%EA%B3%84%EC%A0%95%20%EC%9D%B4%EB%A6%84%20%EB%B3%80%EA%B2%BD.md) Administrator 계정 이름 변경 (계정_스크립트)
 
 ### 개요
 | 항목 | 내용 |
