@@ -46,7 +46,7 @@
 
 #### `W-22` `상` IIS Exec 명령어 쉘 호출 진단
 
-#### `W-23` `상` IIS WebDAV 비활성화
+#### [W-23](https://github.com/qubitsec/VAS/blob/patch-1/windows/new_server/%5BW-23%5D%20IIS%20WebDAV%20%EB%B9%84%ED%99%9C%EC%84%B1%ED%99%94.md) `상` IIS WebDAV 비활성화
 
 #### [W-24](https://github.com/qubitsec/VAS/blob/patch-1/windows/new_server/%5BW-24%5D%20NetBIOS%20%EB%B0%94%EC%9D%B8%EB%94%A9%20%EC%84%9C%EB%B9%84%EC%8A%A4%20%EA%B5%AC%EB%8F%99%20%EC%A0%90%EA%B2%80.md) `상` NetBIOS 바인딩 서비스 구동 점검
 
