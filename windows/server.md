@@ -26,7 +26,7 @@
 
 #### `W-12` `상` IIS CGI 실행 제한
 
-#### `W-13` `상` IIS 상위 디렉토리 접근 금지
+#### [W-13](https://github.com/qubitsec/VAS/blob/patch-1/windows/new_server/%5BW-13%5D%20IIS%20%EC%83%81%EC%9C%84%20%EB%94%94%EB%A0%89%ED%86%A0%EB%A6%AC%20%EC%A0%91%EA%B7%BC%20%EA%B8%88%EC%A7%80.md) `상` IIS 상위 디렉토리 접근 금지
 
 #### `W-14` `상` IIS 불필요한 파일 제거
 
