@@ -32,7 +32,7 @@
 
 #### `W-15` `상` IIS 웹프로세스 권한 제한
 
-#### `W-16` `상` IIS 링크 사용 금지
+#### [W-16](https://github.com/qubitsec/VAS/blob/patch-1/windows/new_server/%5BW-16%5D%20IIS%20%EB%A7%81%ED%81%AC%20%EC%82%AC%EC%9A%A9%20%EA%B8%88%EC%A7%80.md) `상` IIS 링크 사용 금지
 
 #### `W-17` `상` IIS 파일 업로드 및 다운로드 제한
 
