@@ -111,9 +111,9 @@
 
 #### [W-54](https://github.com/qubitsec/VAS/blob/patch-1/windows/new_server/%5BW-54%5D%20%EC%9D%B5%EB%AA%85%20SID%20%EC%9D%B4%EB%A6%84%20%EB%B3%80%ED%99%98%20%ED%97%88%EC%9A%A9%20%ED%95%B4%EC%A0%9C.md) `중` 익명 SID/이름 변환 허용 해제
 
-#### `W-55` `중` 최근 암호 기억
+#### [W-55](https://github.com/qubitsec/VAS/blob/patch-1/windows/new_server/%5BW-55%5D%20%EC%B5%9C%EA%B7%BC%20%EC%95%94%ED%98%B8%20%EA%B8%B0%EC%96%B5.md) `중` 최근 암호 기억
 
-#### `W-56` `중` 콘솔 로그온 시 로컬 계정에서 빈 암호 사용 제한
+#### [W-56](https://github.com/qubitsec/VAS/blob/patch-1/windows/new_server/%5BW-56%5D%20%EC%BD%98%EC%86%94%20%EB%A1%9C%EA%B7%B8%EC%98%A8%20%EC%8B%9C%20%EB%A1%9C%EC%BB%AC%20%EA%B3%84%EC%A0%95%EC%97%90%EC%84%9C%20%EB%B9%88%20%EC%95%94%ED%98%B8%20%EC%82%AC%EC%9A%A9%20%EC%A0%9C%ED%95%9C.md) `중` 콘솔 로그온 시 로컬 계정에서 빈 암호 사용 제한
 
 #### [W-57](https://github.com/qubitsec/VAS/blob/patch-1/windows/new_server/%5BW-57%5D%20%EC%9B%90%EA%B2%A9%20%ED%84%B0%EB%AF%B8%EB%84%90%20%EC%A0%91%EC%86%8D%20%EA%B0%80%EB%8A%A5%ED%95%9C%20%EC%82%AC%EC%9A%A9%EC%9E%90%20%EA%B7%B8%EB%A3%B9%20%EC%A0%9C%ED%95%9C.md) `중` 원격터미널 접속 가능한 사용자 그룹 제한
 
