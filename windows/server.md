@@ -22,7 +22,7 @@
 
 #### [W-10](https://github.com/qubitsec/VAS/blob/patch-1/windows/new_server/%5BW-10%5D%20IIS%20%EC%84%9C%EB%B9%84%EC%8A%A4%20%EA%B5%AC%EB%8F%99%20%EC%A0%90%EA%B2%80.md) `상` IIS 서비스 구동 점검
 
-#### `W-11` `상` IIS 디렉토리 리스팅 제거
+#### [W-11](https://github.com/qubitsec/VAS/blob/patch-1/windows/new_server/%5BW-11%5D%20IIS%20%EB%94%94%EB%A0%89%ED%86%A0%EB%A6%AC%20%EB%A6%AC%EC%8A%A4%ED%8C%85%20%EC%A0%9C%EA%B1%B0.md) `상` IIS 디렉토리 리스팅 제거
 
 #### `W-12` `상` IIS CGI 실행 제한
 
