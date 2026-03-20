@@ -1,0 +1,39 @@
+## [U-82] SSI(Server-Side Includes) 및 쉘 호출 기능 제한
+
+### 개요
+
+| 항목 | 내용 |
+|------|------|
+| 점검 코드 | U-82 |
+| 항목명 | SSI(Server-Side Includes) 및 쉘 호출 기능 제한 |
+| 위험도 | 상 (High) |
+| 범주 | 서비스 관리 |
+
+### 점검 목적
+
+SSI(Server-Side Includes)의 `#exec` 지시어는 웹 서버가 임의의 쉘 명령을 실행할 수 있게 합니다. `mod_include`가 활성화되어 있고 `Includes` 옵션이 설정된 경우, 공격자가 SSI 인젝션을 통해 OS 명령을 실행할 수 있습니다.
+
+### 점검 기준
+
+| 구분 | 기준 | 설명 |
+|------|------|------|
+| 안전 | Includes 옵션이 제거되고 mod_include가 비활성화된 경우 | SSI를 통한 OS 명령 실행 불가 |
+| 취약 | Options에 Includes 또는 All이 있거나 mod_include가 로드된 경우 | SSI 인젝션을 통한 명령 실행 가능 |
+
+## 베이스라인 기준
+
+**안전(양호)**
+
+- `a2dismod include` 적용
+- `/etc/apache2/mods-enabled/include.load` 파일 없음
+- `Options -Includes` 설정
+- Nginx: `ssi on` 설정 없음 (기본값 off)
+
+**취약**
+
+- `/etc/apache2/mods-enabled/include.load` 파일 존재
+- `Options Includes` 또는 `Options All` 활성
+
+### 참고 문서
+
+- KISA 주요정보통신기반시설 기술적 취약점 분석·평가 방법 상세가이드 (Linux/Unix)
