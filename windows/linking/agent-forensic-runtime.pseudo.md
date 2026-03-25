@@ -59,7 +59,7 @@
 예:
 
 ```
-M0284o09uova0qzd-rhel.json
+M0284o09uova0qzd-rhel-link.json
 ```
 
 meta 파일에는 다음 정보가 포함된다.
