@@ -1,0 +1,32 @@
+{
+  "id": "M0284o09uova0qzd",
+  "filterPropertyCode": "common",
+  "filterType": "edr",
+  "isUse": true,
+  "filterRiskLevel": "5",
+  "isDelete": false,
+  "filterCategoryId": 29,
+  "filterDetectType": "detect",
+  "channelId": 100,
+  "channelName": null,
+  "eventKey": "Syslog",
+  "eventProviderKey": "",
+  "osType": "RHEL",
+  "mitreTid": null,
+  "detects": [
+    {
+      "elementTag": "msg",
+      "values": [
+        {
+          "elementSearchText": "(?i:\\b(curl|wget)\\b\\s+.+?https?:\\/\\/.+?\\.sh\\s+\\|\\s+(bash|eval)\\b)",
+          "elementSearchType": "regex",
+          "elementSearchFlag": "eq"
+        }
+      ]
+    }
+  ],
+  "defenses": null,
+  "forensic": {
+    "isUse": true
+  }
+}
