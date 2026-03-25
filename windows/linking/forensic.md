@@ -16,11 +16,6 @@
 
 ## 2. 핵심 구조
 
-### 기존 구조
-Detection → ETL → Backend 분석
-
-### 변경 구조 (v2)
-
 Detection → Agent → Forensic Extraction → Backend 저장
 
 ---
