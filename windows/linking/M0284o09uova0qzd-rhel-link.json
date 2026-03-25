@@ -1,0 +1,27 @@
+{
+  "forensic": {
+    "isUse": true,
+    "forensicOsVariants": [
+      {
+        "osVariant": "server",
+        "forensicValues": [
+          {
+            "forensicType": "1",
+            "forensicId": "ws-aa-vv",
+            "needForensicValue": false
+          }
+        ]
+      },
+      {
+        "osVariant": "desktop",
+        "forensicValues": [
+          {
+            "forensicType": "1",
+            "forensicId": "wd-aa-vv",
+            "needForensicValue": true
+          }
+        ]
+      }
+    ]
+  }
+}
