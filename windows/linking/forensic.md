@@ -1,3 +1,5 @@
+# 📄 1. forensic.md (개념 문서 – 출발점)
+
 # Forensic Integration Overview (v2)
 
 ## 1. 목적
@@ -84,3 +86,6 @@ Agent는 forensicId 기반으로 분석기를 선택한다.
 - 확장 가능한 포렌식 구조
 
 > 탐지는 선언, 분석은 Agent가 수행한다.
+```
+
+---
