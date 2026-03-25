@@ -1,4 +1,28 @@
-**인용부호 포함 Windows CommandLine까지 대응한 운영용 최종 패턴 v2**를 **YAML 기준**으로 정리
+# guide.v2.md
+
+## 문서 목적
+
+본 문서는 **Windows LOLBAS CommandLine Parsing Rule Specification v2** 문서입니다.
+즉, 보안 담당자가 관리하는 **YAML 룰 정의 표준**과 **운영용 최종 패턴 v2**를 정리하는 문서입니다.
+
+이 문서는 구현 문서가 아니라 **룰 정의 문서**입니다.
+ETL/backend 구현, YAML 해석 방식, 후처리 함수 실제 동작, 정규화 결과 저장 방식은
+별도 문서인 **`guide-etl.v2.md`** 에서 관리합니다.
+
+## 문서 관계
+
+- `guide.v2.md`: 보안 담당자 관점의 룰 정의, 필드 규격, 패턴 작성 기준, 운영용 YAML
+- `guide-etl.v2.md`: ETL/backend 관점의 YAML 로딩, trigger 평가, parser 적용, post_process 해석, 정규화 저장
+
+따라서 본 문서에서 등장하는 아래 항목은 **선언형 규격**으로 이해합니다.
+
+- `trigger`
+- `target_field`
+- `parser.pattern`
+- `output`
+- `post_process`
+- `severity`
+- `tags`
 
 전제는 다음입니다.
 
@@ -64,7 +88,8 @@ regsvr32.exe /s /n /u /i:"http://example.com/test.sct" scrobj.dll
 
 # 2. YAML 공통 스키마 v2
 
-아래 스키마를 backend 가 고정 지원하면 됩니다.
+아래 스키마는 **보안 담당자가 관리하는 선언형 룰 형식**입니다.
+이 스키마의 해석과 실행 책임은 `guide-etl.v2.md` 에 정의된 ETL/backend 영역에 있습니다.
 
 ```yaml
 version: 2
@@ -775,9 +800,10 @@ post_process:
 
 ---
 
-# 5. backend 하드코딩 권장 기능
+# 5. ETL/backend 필수 지원 항목
 
-보안 담당자가 YAML 만 관리하려면 backend 가 아래 기능을 고정 지원하는 것이 좋습니다.
+보안 담당자가 YAML 만 관리하려면, ETL/backend 는 아래 항목을 공통 기능으로 지원해야 합니다.
+세부 동작 계약, 예외 처리, 실행 순서, 오류 정책은 `guide-etl.v2.md` 에서 관리합니다.
 
 ## 5-1. trigger evaluator
 
@@ -811,7 +837,7 @@ detect_sct
 
 ---
 
-# 6. backend 가 최종적으로 만드는 정규화 결과 예시
+# 6. ETL/backend 정규화 결과 예시
 
 입력 로그:
 
@@ -917,26 +943,30 @@ rules/
 
 # 10. 최종 정리
 
-네, 요청하신 방향은 정확히 이렇게 정리됩니다.
-
 ## 구조
 
-* backend: 하드코딩된 룰 엔진
-* security team: YAML 관리
+* security team: `guide.v2.md` 기준으로 YAML 룰 관리
+* ETL/backend team: `guide-etl.v2.md` 기준으로 YAML 해석 및 처리 엔진 관리
 
-## YAML 내용
+## guide.v2.md 에서 관리하는 내용
 
 * 트리거 정의
 * 대상 필드 정의
 * quoted/unquoted 대응 regex
 * 추출 필드 정의
-* 후처리 정의
+* 후처리 키워드 선언
+* 위험도 및 태그
+
+## guide-etl.v2.md 에서 관리하는 내용
+
+* YAML 로딩 방식
+* trigger 평가 순서
+* parser 적용 규칙
+* post_process 해석 규칙
+* 정규화 결과 스키마
+* 오류 처리 및 예외 정책
 
 ## 이번 v2 목적
 
 * **Windows CommandLine 인용부호 포함 형태까지 운영 수준으로 대응**
-
----
-
-원하시면 다음 단계로 바로 이어서
-**이 YAML 을 읽는 backend pseudo code / Python / PowerShell 샘플 엔진**까지 맞춰 드릴 수 있습니다.
+* **룰 정의와 ETL 구현 문서를 분리하여 운영 책임을 명확히 구분**
