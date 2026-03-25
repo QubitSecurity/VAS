@@ -31,6 +31,96 @@ guide-etl.v2.md
   → 그 YAML 을 ETL/backend 에서 어떻게 해석하고 처리할 것인가
 ```
 
+
+
+## Mermaid 구성도
+
+이 문서는 **개념 정리 문서**이므로, 하나만 고른다면 **Sequence Diagram** 이 더 적합합니다.
+이 문서의 핵심이 객체 구조 자체보다,
+
+- 이벤트 로그가 들어오고
+- LOLBAS 트리거를 식별하고
+- `CommandLine` 을 대상으로
+- grok/regex 로 값을 추출하고
+- 그 결과가 YAML 룰과 ETL 문서로 이어지는
+
+**처리 흐름**을 설명하는 데 있기 때문입니다.
+
+다만, 이해를 돕기 위해서는 아래처럼 두 가지를 함께 두는 것이 가장 좋습니다.
+
+- **Class Diagram**: 문서/구성요소 간 역할과 관계 설명
+- **Sequence Diagram**: 실제 분석 흐름 설명
+
+### 1) Class Diagram
+
+```mermaid
+classDiagram
+    class ForensicConcept {
+        +problem_definition
+        +trigger_model
+        +target_field_model
+        +extraction_model
+    }
+
+    class GuideV2 {
+        +yaml_rule_definition
+        +field_schema
+        +parser_pattern
+        +post_process_definition
+    }
+
+    class GuideEtlV2 {
+        +yaml_loading
+        +trigger_evaluation
+        +parser_execution
+        +normalized_result
+    }
+
+    class EventLog {
+        +Image
+        +CommandLine
+        +EventID
+    }
+
+    class YamlRule {
+        +trigger
+        +target_field
+        +parser.pattern
+        +output
+        +post_process
+    }
+
+    ForensicConcept --> GuideV2 : defines concept for
+    ForensicConcept --> GuideEtlV2 : defines execution basis for
+    GuideV2 --> YamlRule : specifies
+    GuideEtlV2 --> YamlRule : interprets
+    EventLog --> GuideEtlV2 : input
+```
+
+### 2) Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    participant E as Windows Event Log
+    participant F as forensic.md
+    participant G as guide.v2.md
+    participant Y as YAML Rule
+    participant T as guide-etl.v2.md
+    participant R as Normalized Result
+
+    E->>F: CommandLine / Image / EventID 확인
+    F->>F: LOLBAS 트리거 정의
+    F->>F: 대상 필드(CommandLine) 확정
+    F->>F: 추출 대상 값 모델 정의
+    F->>G: YAML 룰 구조로 구체화
+    G->>Y: trigger / target_field / parser / output 작성
+    Y->>T: ETL 해석 대상 제공
+    T->>T: trigger 평가
+    T->>T: regex/grok 적용
+    T->>T: post_process 수행
+    T->>R: normalized fields 생성
+```
+
 ---
 
 # 1. 문제 정의
