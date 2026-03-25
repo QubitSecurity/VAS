@@ -1,5 +1,3 @@
-# 📄 2. guide.v2.md (Agent 추출 규칙 정의)
-
 # Agent Forensic Extraction Guide (v2)
 
 ## 1. 목적
