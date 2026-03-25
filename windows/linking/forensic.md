@@ -1,5 +1,3 @@
-# 📄 1. forensic.md (개념 문서 – 출발점)
-
 # Forensic Integration Overview (v2)
 
 ## 1. 목적
