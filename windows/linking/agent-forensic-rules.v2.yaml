@@ -1,0 +1,222 @@
+version: 2
+kind: agent_forensic_extraction_rules
+metadata:
+  name: agent-forensic-extraction-rules
+  description: >-
+    Agent-side forensic extraction rules. The agent reads these rules after a detection
+    filter with forensic.isUse=true has matched, extracts values from event fields using
+    regex or grok, and sends a forensic payload. Backend and ETL do not interpret these rules.
+  owner: security-team
+  target_runtime: agent
+  parser_support:
+    - regex
+    - grok
+
+defaults:
+  enabled: true
+  stop_on_first_match: true
+  strip_quotes: true
+  trim_whitespace: true
+  max_field_length: 8192
+  value_required_default: true
+
+extractors:
+  - id: FX-M0284o09uova0qzd-RHEL-CURL-WGET-PIPE
+    enabled: true
+    description: >-
+      Extract URL, tool, and shell from a Syslog msg that matches the RHEL detection
+      M0284o09uova0qzd (curl|wget ... .sh | bash|eval).
+
+    match:
+      detection_ids:
+        - M0284o09uova0qzd
+      os_types:
+        - RHEL
+      event_keys:
+        - Syslog
+      forensic_meta:
+        isUse: true
+      forensic_os_variants:
+        - server
+
+    route:
+      forensic_type: "1"
+      forensic_id: ws-integrated-malware-file-analyzer
+      need_forensic_value: true
+
+    source_fields:
+      - msg
+
+    parsers:
+      - id: regex_pipe_url
+        type: regex
+        field: msg
+        pattern: '(?ix)
+          \b(?<download_tool>curl|wget)\b
+          \s+
+          (?<prefix>.*?)
+          (?<remote_url>https?://[^\s"\'']+?\.sh(?:\?[^\s"\'']*)?)
+          \s*\|\s*
+          (?<exec_shell>bash|eval)\b
+        '
+        outputs:
+          download_tool: download_tool
+          remote_url: remote_url
+          exec_shell: exec_shell
+
+      - id: grok_pipe_url
+        type: grok
+        field: msg
+        pattern: '%{WORD:download_tool} %{GREEDYDATA:prefix}%{URI:remote_url} \| %{WORD:exec_shell}'
+        outputs:
+          download_tool: download_tool
+          remote_url: remote_url
+          exec_shell: exec_shell
+
+    post_process:
+      - trim:remote_url
+      - trim:download_tool
+      - trim:exec_shell
+      - lowercase:download_tool
+      - lowercase:exec_shell
+      - set:analysis_type=remote_script
+      - set:source_field=msg
+      - set:artifact_origin=network
+
+    deliver:
+      forensic_values:
+        remote_url: remote_url
+        download_tool: download_tool
+        exec_shell: exec_shell
+        analysis_type: analysis_type
+        artifact_origin: artifact_origin
+
+  - id: FX-WD-INTEGRATED-MALWARE-FILE-ANALYZER-WINDOWS-PATH
+    enabled: true
+    description: >-
+      Extract a Windows file path from process events for wd-integrated-malware-file-analyzer.
+      Use this when forensic meta requests a desktop analyzer and the event contains a local file path.
+
+    match:
+      forensic_ids:
+        - wd-integrated-malware-file-analyzer
+      os_types:
+        - Windows
+      forensic_os_variants:
+        - desktop
+
+    route:
+      forensic_type: "1"
+      forensic_id: wd-integrated-malware-file-analyzer
+      need_forensic_value: true
+
+    source_fields:
+      - CommandLine
+      - Image
+      - ParentCommandLine
+      - file_path
+      - msg
+
+    parsers:
+      - id: regex_windows_path_cmd
+        type: regex
+        field: CommandLine
+        pattern: '(?ix)
+          (?<target>
+            [A-Za-z]:\\
+            (?:[^\\/:*?"<>|\r\n]+\\)*
+            [^\\/:*?"<>|\r\n]+(?:\.[A-Za-z0-9]{1,8})
+          )
+        '
+        outputs:
+          target: target
+
+      - id: regex_windows_path_msg
+        type: regex
+        field: msg
+        pattern: '(?ix)
+          (?<target>
+            [A-Za-z]:\\
+            (?:[^\\/:*?"<>|\r\n]+\\)*
+            [^\\/:*?"<>|\r\n]+(?:\.[A-Za-z0-9]{1,8})
+          )
+        '
+        outputs:
+          target: target
+
+    post_process:
+      - trim:target
+      - strip_wrapping_quotes:target
+      - normalize_windows_path:target
+      - set:analysis_type=local_file
+      - set:artifact_origin=host
+
+    deliver:
+      forensic_values:
+        target: target
+        analysis_type: analysis_type
+        artifact_origin: artifact_origin
+
+  - id: FX-WS-INTEGRATED-MALWARE-FILE-ANALYZER-LINUX-PATH
+    enabled: true
+    description: >-
+      Extract a Linux file path from Syslog/process events for ws-integrated-malware-file-analyzer.
+
+    match:
+      forensic_ids:
+        - ws-integrated-malware-file-analyzer
+      os_types:
+        - RHEL
+        - Linux
+      forensic_os_variants:
+        - server
+
+    route:
+      forensic_type: "1"
+      forensic_id: ws-integrated-malware-file-analyzer
+      need_forensic_value: true
+
+    source_fields:
+      - msg
+      - CommandLine
+      - file_path
+
+    parsers:
+      - id: regex_linux_path_cmd
+        type: regex
+        field: CommandLine
+        pattern: '(?ix)
+          (?<target>
+            /(?!proc/|sys/|dev/)
+            (?:[^\s"\'':]+/)*
+            [^\s"\'':]+(?:\.[A-Za-z0-9._-]{1,16})?
+          )
+        '
+        outputs:
+          target: target
+
+      - id: regex_linux_path_msg
+        type: regex
+        field: msg
+        pattern: '(?ix)
+          (?<target>
+            /(?!proc/|sys/|dev/)
+            (?:[^\s"\'':]+/)*
+            [^\s"\'':]+(?:\.[A-Za-z0-9._-]{1,16})?
+          )
+        '
+        outputs:
+          target: target
+
+    post_process:
+      - trim:target
+      - strip_wrapping_quotes:target
+      - normalize_linux_path:target
+      - set:analysis_type=local_file
+      - set:artifact_origin=host
+
+    deliver:
+      forensic_values:
+        target: target
+        analysis_type: analysis_type
+        artifact_origin: artifact_origin
