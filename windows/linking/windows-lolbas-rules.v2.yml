@@ -1,0 +1,634 @@
+version: 2
+
+metadata:
+  name: windows-lolbas-commandline-parser
+  description: Operational LOLBAS parsing rules for Windows CommandLine with ETL forensic integration
+  owner: security-team
+  target_platform: windows
+
+defaults:
+  target_field: CommandLine
+  parser_type: regex
+  case_insensitive: true
+
+rules:
+  - id: LOLBAS_BITSADMIN_TRANSFER_V2
+    name: bitsadmin transfer extract v2
+    status: enabled
+    description: Extract job name, remote source, and local destination from bitsadmin /transfer command line with quoted argument support
+    lolbas: bitsadmin
+    category: file_download
+
+    log_source:
+      product: windows
+      service: security
+      event_id:
+        - 4688
+        - 1
+
+    trigger:
+      image:
+        endswith:
+          - '\bitsadmin.exe'
+      commandline:
+        contains:
+          - '/transfer'
+
+    target_field: CommandLine
+
+    parser:
+      type: regex
+      pattern: |
+        (?ix)
+        ^\s*
+        (?:
+          "(?<image_quoted>[^"]*bitsadmin(?:\.exe)?)"
+          |
+          (?<image_plain>\S*bitsadmin(?:\.exe)?)
+        )?
+        \s*
+        /transfer
+        \s+
+        (?:
+          "(?<job_name_q>[^"]+)"
+          |
+          (?<job_name>\S+)
+        )
+        \s+
+        (?:
+          "(?<remote_src_q>[^"]+)"
+          |
+          (?<remote_src>\S+)
+        )
+        \s+
+        (?:
+          "(?<local_dst_q>[^"]+)"
+          |
+          (?<local_dst>.+?)
+        )
+        \s*$
+
+    output:
+      - image_quoted
+      - image_plain
+      - job_name_q
+      - job_name
+      - remote_src_q
+      - remote_src
+      - local_dst_q
+      - local_dst
+
+    post_process:
+      - coalesce:image=image_quoted,image_plain
+      - coalesce:job_name=job_name_q,job_name
+      - coalesce:remote_src=remote_src_q,remote_src
+      - coalesce:local_dst=local_dst_q,local_dst
+      - normalize_windows_path:local_dst
+      - detect_remote_url:remote_src
+      - detect_ads:remote_src
+      - detect_script_extension:local_dst
+
+    forensic_integration:
+      enabled: true
+      forensic_code: WIN-LOLBAS-BITSADMIN-TRANSFER
+      payload_fields:
+        - image
+        - job_name
+        - remote_src
+        - local_dst
+
+    tags:
+      - lolbas
+      - bitsadmin
+      - transfer
+      - download
+
+    severity: high
+
+  - id: LOLBAS_CERTUTIL_URLCACHE_V2
+    name: certutil urlcache extract v2
+    status: enabled
+    description: Extract remote source and local destination from certutil -urlcache command line with quoted argument support
+    lolbas: certutil
+    category: file_download
+
+    log_source:
+      product: windows
+      service: security
+      event_id:
+        - 4688
+        - 1
+
+    trigger:
+      image:
+        endswith:
+          - '\certutil.exe'
+      commandline:
+        contains:
+          - '-urlcache'
+
+    target_field: CommandLine
+
+    parser:
+      type: regex
+      pattern: |
+        (?ix)
+        ^\s*
+        (?:
+          "(?<image_quoted>[^"]*certutil(?:\.exe)?)"
+          |
+          (?<image_plain>\S*certutil(?:\.exe)?)
+        )?
+        \s*
+        (?<raw_prefix>.*?-urlcache.*?-f)
+        \s+
+        (?:
+          "(?<remote_src_q>[^"]+)"
+          |
+          (?<remote_src>\S+)
+        )
+        \s+
+        (?:
+          "(?<local_dst_q>[^"]+)"
+          |
+          (?<local_dst>.+?)
+        )
+        \s*$
+
+    output:
+      - image_quoted
+      - image_plain
+      - raw_prefix
+      - remote_src_q
+      - remote_src
+      - local_dst_q
+      - local_dst
+
+    post_process:
+      - coalesce:image=image_quoted,image_plain
+      - trim:raw_prefix
+      - coalesce:remote_src=remote_src_q,remote_src
+      - coalesce:local_dst=local_dst_q,local_dst
+      - normalize_windows_path:local_dst
+      - detect_remote_url:remote_src
+      - detect_script_extension:local_dst
+
+    forensic_integration:
+      enabled: true
+      forensic_code: WIN-LOLBAS-CERTUTIL-URLCACHE
+      payload_fields:
+        - image
+        - remote_src
+        - local_dst
+
+    tags:
+      - lolbas
+      - certutil
+      - urlcache
+      - download
+
+    severity: high
+
+  - id: LOLBAS_CERTUTIL_DECODE_V2
+    name: certutil decode extract v2
+    status: enabled
+    description: Extract source path and destination path from certutil decode command line with quoted argument support
+    lolbas: certutil
+    category: file_transform
+
+    log_source:
+      product: windows
+      service: security
+      event_id:
+        - 4688
+        - 1
+
+    trigger:
+      image:
+        endswith:
+          - '\certutil.exe'
+      commandline:
+        contains:
+          - '-decode'
+
+    target_field: CommandLine
+
+    parser:
+      type: regex
+      pattern: |
+        (?ix)
+        ^\s*
+        (?:
+          "(?<image_quoted>[^"]*certutil(?:\.exe)?)"
+          |
+          (?<image_plain>\S*certutil(?:\.exe)?)
+        )?
+        \s*
+        (?<lolbas_action>-(?:decode|decodehex|encode|encodehex))
+        \s+
+        (?:
+          "(?<src_path_q>[^"]+)"
+          |
+          (?<src_path>\S+)
+        )
+        \s+
+        (?:
+          "(?<local_dst_q>[^"]+)"
+          |
+          (?<local_dst>.+?)
+        )
+        \s*$
+
+    output:
+      - image_quoted
+      - image_plain
+      - lolbas_action
+      - src_path_q
+      - src_path
+      - local_dst_q
+      - local_dst
+
+    post_process:
+      - coalesce:image=image_quoted,image_plain
+      - coalesce:src_path=src_path_q,src_path
+      - coalesce:local_dst=local_dst_q,local_dst
+      - normalize_windows_path:src_path
+      - normalize_windows_path:local_dst
+      - detect_script_extension:local_dst
+
+    forensic_integration:
+      enabled: true
+      forensic_code: WIN-LOLBAS-CERTUTIL-DECODE
+      payload_fields:
+        - image
+        - lolbas_action
+        - src_path
+        - local_dst
+
+    tags:
+      - lolbas
+      - certutil
+      - decode
+      - encode
+
+    severity: medium
+
+  - id: LOLBAS_MSHTA_TARGET_V2
+    name: mshta target extract v2
+    status: enabled
+    description: Extract target path or script scheme from mshta command line with quoted argument support
+    lolbas: mshta
+    category: script_execution
+
+    log_source:
+      product: windows
+      service: security
+      event_id:
+        - 4688
+        - 1
+
+    trigger:
+      image:
+        endswith:
+          - '\mshta.exe'
+
+    target_field: CommandLine
+
+    parser:
+      type: regex
+      pattern: |
+        (?ix)
+        ^\s*
+        (?:
+          "(?<image_quoted>[^"]*mshta(?:\.exe)?)"
+          |
+          (?<image_plain>\S*mshta(?:\.exe)?)
+        )
+        \s+
+        (?:
+          "(?<target_path_q>[^"]+)"
+          |
+          (?<target_path>.+)
+        )
+        \s*$
+
+    output:
+      - image_quoted
+      - image_plain
+      - target_path_q
+      - target_path
+
+    post_process:
+      - coalesce:image=image_quoted,image_plain
+      - coalesce:target_path=target_path_q,target_path
+      - detect_remote_url:target_path
+      - detect_script_scheme:target_path
+      - detect_script_extension:target_path
+      - normalize_windows_path:target_path
+
+    forensic_integration:
+      enabled: true
+      forensic_code: WIN-LOLBAS-MSHTA-TARGET
+      payload_fields:
+        - image
+        - target_path
+
+    tags:
+      - lolbas
+      - mshta
+      - script
+      - hta
+
+    severity: high
+
+  - id: LOLBAS_REGSVR32_REMOTE_SCT_V2
+    name: regsvr32 remote sct extract v2
+    status: enabled
+    description: "Extract remote source from /i: and DLL target from regsvr32 command line with quoted argument support"
+    lolbas: regsvr32
+    category: remote_scriptlet
+
+    log_source:
+      product: windows
+      service: security
+      event_id:
+        - 4688
+        - 1
+
+    trigger:
+      image:
+        endswith:
+          - '\regsvr32.exe'
+      commandline:
+        contains:
+          - '/i:'
+
+    target_field: CommandLine
+
+    parser:
+      type: regex
+      pattern: |
+        (?ix)
+        ^\s*
+        (?:
+          "(?<image_quoted>[^"]*regsvr32(?:\.exe)?)"
+          |
+          (?<image_plain>\S*regsvr32(?:\.exe)?)
+        )
+        \s+
+        (?<raw_prefix>.*?)
+        /i:
+        (?:
+          "(?<remote_src_q>[^"]+)"
+          |
+          (?<remote_src>\S+)
+        )
+        \s+
+        (?:
+          "(?<dll_path_q>[^"]+)"
+          |
+          (?<dll_path>\S+)
+        )
+        \s*$
+
+    output:
+      - image_quoted
+      - image_plain
+      - raw_prefix
+      - remote_src_q
+      - remote_src
+      - dll_path_q
+      - dll_path
+
+    post_process:
+      - coalesce:image=image_quoted,image_plain
+      - trim:raw_prefix
+      - coalesce:remote_src=remote_src_q,remote_src
+      - coalesce:dll_path=dll_path_q,dll_path
+      - detect_remote_url:remote_src
+      - detect_sct:remote_src
+      - normalize_windows_path:dll_path
+
+    forensic_integration:
+      enabled: true
+      forensic_code: WIN-LOLBAS-REGSVR32-REMOTE-SCT
+      payload_fields:
+        - image
+        - remote_src
+        - dll_path
+
+    tags:
+      - lolbas
+      - regsvr32
+      - remote
+      - sct
+
+    severity: high
+
+  - id: LOLBAS_REGSVR32_DLL_V2
+    name: regsvr32 dll extract v2
+    status: enabled
+    description: Extract local DLL path from regsvr32 command line with quoted argument support
+    lolbas: regsvr32
+    category: dll_registration
+
+    log_source:
+      product: windows
+      service: security
+      event_id:
+        - 4688
+        - 1
+
+    trigger:
+      image:
+        endswith:
+          - '\regsvr32.exe'
+
+    target_field: CommandLine
+
+    parser:
+      type: regex
+      pattern: |
+        (?ix)
+        ^\s*
+        (?:
+          "(?<image_quoted>[^"]*regsvr32(?:\.exe)?)"
+          |
+          (?<image_plain>\S*regsvr32(?:\.exe)?)
+        )
+        \s+
+        (?<raw_prefix>.*?)
+        (?:
+          "(?<dll_path_q>[A-Za-z]:\\[^"]+?\.dll)"
+          |
+          (?<dll_path>[A-Za-z]:\\.*?\.dll)
+        )
+        \s*$
+
+    output:
+      - image_quoted
+      - image_plain
+      - raw_prefix
+      - dll_path_q
+      - dll_path
+
+    post_process:
+      - coalesce:image=image_quoted,image_plain
+      - trim:raw_prefix
+      - coalesce:dll_path=dll_path_q,dll_path
+      - normalize_windows_path:dll_path
+
+    forensic_integration:
+      enabled: true
+      forensic_code: WIN-LOLBAS-REGSVR32-DLL
+      payload_fields:
+        - image
+        - dll_path
+
+    tags:
+      - lolbas
+      - regsvr32
+      - dll
+
+    severity: medium
+
+  - id: LOLBAS_RUNDLL32_DLL_EXPORT_V2
+    name: rundll32 dll export extract v2
+    status: enabled
+    description: Extract DLL path, export function, and additional arguments from rundll32 command line with quoted argument support
+    lolbas: rundll32
+    category: dll_execution
+
+    log_source:
+      product: windows
+      service: security
+      event_id:
+        - 4688
+        - 1
+
+    trigger:
+      image:
+        endswith:
+          - '\rundll32.exe'
+
+    target_field: CommandLine
+
+    parser:
+      type: regex
+      pattern: |
+        (?ix)
+        ^\s*
+        (?:
+          "(?<image_quoted>[^"]*rundll32(?:\.exe)?)"
+          |
+          (?<image_plain>\S*rundll32(?:\.exe)?)
+        )
+        \s+
+        (?:
+          "(?<dll_path_q>[^"]+)"
+          |
+          (?<dll_path>[^,\s]+)
+        )
+        ,
+        (?<export_func>[^\s,"]+)
+        (?:
+          \s+
+          (?<raw_args>.*)
+        )?
+        \s*$
+
+    output:
+      - image_quoted
+      - image_plain
+      - dll_path_q
+      - dll_path
+      - export_func
+      - raw_args
+
+    post_process:
+      - coalesce:image=image_quoted,image_plain
+      - coalesce:dll_path=dll_path_q,dll_path
+      - normalize_windows_path:dll_path
+      - trim:raw_args
+      - detect_script_scheme:raw_args
+
+    forensic_integration:
+      enabled: true
+      forensic_code: WIN-LOLBAS-RUNDLL32-DLL-EXPORT
+      payload_fields:
+        - image
+        - dll_path
+        - export_func
+        - raw_args
+
+    tags:
+      - lolbas
+      - rundll32
+      - dll
+      - export
+
+    severity: high
+
+  - id: LOLBAS_RUNDLL32_SCRIPT_SCHEME_V2
+    name: rundll32 script scheme extract v2
+    status: enabled
+    description: Extract javascript or vbscript execution payload from rundll32 command line
+    lolbas: rundll32
+    category: script_execution
+
+    log_source:
+      product: windows
+      service: security
+      event_id:
+        - 4688
+        - 1
+
+    trigger:
+      image:
+        endswith:
+          - '\rundll32.exe'
+      commandline:
+        regex:
+          - '(?i)\b(?:javascript|vbscript):'
+
+    target_field: CommandLine
+
+    parser:
+      type: regex
+      pattern: |
+        (?ix)
+        ^\s*
+        (?:
+          "(?<image_quoted>[^"]*rundll32(?:\.exe)?)"
+          |
+          (?<image_plain>\S*rundll32(?:\.exe)?)
+        )
+        \s+
+        (?<script_path>.*?(?:javascript|vbscript):.+)
+        \s*$
+
+    output:
+      - image_quoted
+      - image_plain
+      - script_path
+
+    post_process:
+      - coalesce:image=image_quoted,image_plain
+      - trim:script_path
+      - detect_script_scheme:script_path
+      - detect_remote_url:script_path
+
+    forensic_integration:
+      enabled: true
+      forensic_code: WIN-LOLBAS-RUNDLL32-SCRIPT-SCHEME
+      payload_fields:
+        - image
+        - script_path
+
+    tags:
+      - lolbas
+      - rundll32
+      - javascript
+      - vbscript
+
+    severity: high
