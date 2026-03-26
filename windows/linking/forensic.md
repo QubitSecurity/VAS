@@ -1,4 +1,4 @@
-# Forensic Integration Overview (v2)
+# Forensic Integration Overview
 
 ## 1. 목적
 
