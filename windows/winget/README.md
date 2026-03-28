@@ -1,6 +1,6 @@
 # 🚀 WinGet Policy Control & Verification Guide
 
-이 프로젝트는 Windows 전역에서 **Windows Package Manager(winget)**의 사용 가능 여부를 제어하고, 정책이 실제 시스템에 올바르게 반영되었는지 검증하는 도구를 제공합니다.
+이 프로젝트는 Windows 전역에서 **Windows Package Manager**(winget)의 사용 가능 여부를 제어하고, 정책이 실제 시스템에 올바르게 반영되었는지 검증하는 도구를 제공합니다.
 
 ## 📌 개요
 Microsoft의 `EnableAppInstaller` 그룹 정책을 활용하여 winget 기능을 차단하거나 허용합니다. 정책이 비활성화(`OFF`)되면 `winget -?`와 같은 기본 도움말은 실행될 수 있으나, 실제 네트워크 통신이나 설치가 필요한 명령은 차단됩니다.
