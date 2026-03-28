@@ -1,6 +1,87 @@
 grok_patterns:
   Alternate_data_streams:
-    # TODO: Add rules for Alternate data streams
+    # --- Mshta.exe ---
+    ADS_MSHTA_1: "%{WORD:process}\\.exe \\\"%{NOTSPACE:targetFile}\\\""
+
+    # --- Rundll32.exe ---
+    ADS_RUNDLL32_1: "%{WORD:process} \\\"%{NOTSPACE:targetFile}\\\",DllMain"
+
+    # --- Bitsadmin.exe ---
+    ADS_BITSADMIN_1: "%{WORD:process} /create 1 bitsadmin /addfile 1 %{NOTSPACE:targetFile} %{NOTSPACE:targetFile} bitsadmin /SetNotifyCmdLine 1 %{NOTSPACE:targetFile} NULL bitsadmin /RESUME 1 bitsadmin /complete 1"
+
+    # --- Certutil.exe ---
+    ADS_CERTUTIL_1: "%{WORD:process}\\.exe -urlcache -f %{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+
+    # --- Cmd.exe ---
+    ADS_CMD_1: "%{WORD:process}\\.exe /c echo regsvr32\\.exe \\^/s \\^/u \\^/i:%{NOTSPACE:targetFile} \\^scrobj\\.dll > %{NOTSPACE:targetFile}"
+    ADS_CMD_2: "%{WORD:process}\\.exe - < %{NOTSPACE:targetFile}"
+
+    # --- Control.exe ---
+    ADS_CONTROL_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+
+    # --- Cscript.exe ---
+    ADS_CSCRIPT_1: "%{WORD:process} //e:vbscript %{NOTSPACE:targetFile}"
+
+    # --- Esentutl.exe ---
+    ADS_ESENTUTL_1: "%{WORD:process}\\.exe /y %{NOTSPACE:targetFile} /d %{NOTSPACE:targetFile} /o"
+    ADS_ESENTUTL_2: "%{WORD:process}\\.exe /y \\\\\\\\servername\\\\C\\$\\\\Windows\\\\Temp\\\\file\\.exe /d %{NOTSPACE:targetFile} /o"
+
+    # --- Expand.exe ---
+    ADS_EXPAND_1: "%{WORD:process} %{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+
+    # --- Extrac32.exe ---
+    ADS_EXTRAC32_1: "%{WORD:process} %{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+
+    # --- Findstr.exe ---
+    ADS_FINDSTR_1: "%{WORD:process} /V /L W3AllLov3LolBas %{NOTSPACE:targetFile} > %{NOTSPACE:targetFile}"
+
+    # --- Forfiles.exe ---
+    ADS_FORFILES_1: "%{WORD:process} /p c:\\\\windows\\\\system32 /m notepad\\.exe /c \\\"%{GREEDYDATA:targetFile}\\\""
+
+    # --- Makecab.exe ---
+    ADS_MAKECAB_1: "%{WORD:process} %{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+
+    # --- Mavinject.exe ---
+    ADS_MAVINJECT_1: "%{WORD:process}\\.exe 4172 /INJECTRUNNING %{NOTSPACE:targetFile}"
+
+    # --- Reg.exe ---
+    ADS_REG_1: "%{WORD:process} export HKLM\\\\SOFTWARE\\\\Microsoft\\\\Evilreg %{NOTSPACE:targetFile}"
+    ADS_REG_2: "%{WORD:process} %{NOTSPACE:targetFile}"
+
+    # --- Sc.exe ---
+    ADS_SC_1: "%{WORD:process} create evilservice binPath=\\\"\\\"%{NOTSPACE:targetFile}\\\" /c echo works > \\\"%{NOTSPACE:targetFile}\\\"\\\" DisplayName= \\\"evilservice\\\" start= auto\\\\ & sc start evilservice"
+    ADS_SC_2: "%{WORD:process} config \\{ExistingServiceName\\} binPath=\\\"\\\"%{NOTSPACE:targetFile}\\\" /c echo works > \\\"%{NOTSPACE:targetFile}\\\"\\\" & sc start \\{ExistingServiceName\\}"
+
+    # --- Tar.exe ---
+    ADS_TAR_1: "%{WORD:process} -cf %{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+    ADS_TAR_2: "%{WORD:process} -xf %{NOTSPACE:targetFile}"
+
+    # --- Wmic.exe ---
+    ADS_WMIC_1: "%{WORD:process}\\.exe process call create \\\"%{GREEDYDATA:targetFile}\\\""
+
+    # --- Wscript.exe ---
+    ADS_WSCRIPT_1: "%{WORD:process} //e:vbscript %{NOTSPACE:targetFile}"
+    ADS_WSCRIPT_2: "echo GetObject\\(\\\"script:%{NOTSPACE:targetFile}\\\"\\) > %{NOTSPACE:targetFile} && wscript\\.exe %{NOTSPACE:targetFile}"
+
+    # --- MpCmdRun.exe ---
+    ADS_MPCMDRUN_1: "%{WORD:process}\\.exe -DownloadFile -url %{NOTSPACE:targetFile} -path %{NOTSPACE:targetFile}"
+
+    # --- Msxsl.exe ---
+    ADS_MSXSL_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile} %{NOTSPACE:targetFile} -o %{NOTSPACE:targetFile}"
+
+    # --- Diantz.exe ---
+    ADS_DIANTZ_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+
+    # --- Print.exe ---
+    ADS_PRINT_1: "%{WORD:process} /D:%{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+
+    # --- PrintBrm.exe ---
+    ADS_PRINTBRM_1: "%{WORD:process} -r -f %{NOTSPACE:targetFile} -d %{NOTSPACE:targetFile}"
+
+    # --- Regedit.exe & Regini.exe ---
+    ADS_REGEDIT_1: "%{WORD:process} /E %{NOTSPACE:targetFile} HKEY_CURRENT_USER\\\\MyCustomRegKey"
+    ADS_REGEDIT_2: "%{WORD:process} %{NOTSPACE:targetFile}"
+    ADS_REGINI_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
 
   AWL_bypass:
     # --- Regsvr32.exe ---
@@ -103,20 +184,91 @@ grok_patterns:
     AWL_VSTEST_CONSOLE_1: "vstest\\.console\\.exe %{NOTSPACE:targetFile}"
 
   Compile:
-    # TODO: Add rules for Compile
+    # --- Csc.exe (C# Compiler) ---
+    COMPILE_CSC_1: "%{WORD:process}\\.exe -out:%{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+    COMPILE_CSC_2: "%{WORD:process} -target:library %{NOTSPACE:targetFile}"
+
+    # --- Ilasm.exe (IL Assembler) ---
+    COMPILE_ILASM_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile} /exe"
+    COMPILE_ILASM_2: "%{WORD:process}\\.exe %{NOTSPACE:targetFile} /dll"
+
+    # --- Jsc.exe (JS Compiler) ---
+    COMPILE_JSC_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+    COMPILE_JSC_2: "%{WORD:process}\\.exe /t:library %{NOTSPACE:targetFile}"
+
+    # --- Vbc.exe (VB Compiler) ---
+    COMPILE_VBC_1: "%{WORD:process}\\.exe /target:exe %{NOTSPACE:targetFile}"
+    COMPILE_VBC_2: "%{WORD:process} -reference:Microsoft\\.VisualBasic\\.dll %{NOTSPACE:targetFile}"
 
   Conceal:
-    # TODO: Add rules for Conceal
+    # --- DeviceCredentialDeployment.exe ---
+    # 장치 자격 증명 배포 도구의 실행을 탐지합니다. 
+    # 인자값이 추가될 경우를 대비해 GREEDYDATA를 배치하였습니다.
+    CONCEAL_DEVICE_CRED_1: "DeviceCredentialDeployment\\.exe%{GREEDYDATA:targetFile}"
 
   Copy:
-    LOLBAS_CMD_TYPE_REDIRECT_V2: "type \\\\\\\\servername\\\\C\\$\\\\Windows\\\\Temp\\\\file\\.ext > %{NOTSPACE:targetFile}"
-    LOLBAS_ESENTUTL_COPY_V2: "%{WORD:process} /y \\\\\\\\servername\\\\C\\$\\\\Windows\\\\Temp\\\\file\\.source\\.exe /d %{NOTSPACE:targetFile} /o"
+    # --- Bitsadmin.exe ---
+    COPY_BITSADMIN_1: "%{WORD:process} /create 1 & bitsadmin /addfile 1 %{NOTSPACE:targetFile} %{NOTSPACE:targetFile} & bitsadmin /RESUME 1 & bitsadmin /Complete 1 & bitsadmin /reset"
+
+    # --- Esentutl.exe ---
+    COPY_ESENTUTL_1: "%{WORD:process}\\.exe /y %{NOTSPACE:targetFile} /d %{NOTSPACE:targetFile} /o"
+    COPY_ESENTUTL_2: "%{WORD:process}\\.exe /y /vss %{NOTSPACE:targetFile} /d %{NOTSPACE:targetFile}"
+
+    # --- Expand.exe ---
+    COPY_EXPAND_1: "%{WORD:process} %{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+
+    # --- Extrac32.exe ---
+    COPY_EXTRAC32_1: "%{WORD:process}\\.exe /C %{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+
+    # --- Tar.exe ---
+    COPY_TAR_1: "%{WORD:process} -xf %{NOTSPACE:targetFile}"
+
+    # --- Wmic.exe ---
+    # 쌍따옴표 안에 홑따옴표가 들어간 복잡한 패턴을 처리합니다.
+    COPY_WMIC_1: "%{WORD:process}\\.exe datafile where \\\"Name='%{NOTSPACE:targetFile}'\\\" call Copy \\\"%{NOTSPACE:targetFile}\\\""
+
+    # --- Colorcpl.exe ---
+    COPY_COLORCPL_1: "%{WORD:process} %{NOTSPACE:targetFile}"
+
+    # --- Print.exe ---
+    COPY_PRINT_1: "%{WORD:process} /D:%{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+
+    # --- Replace.exe ---
+    COPY_REPLACE_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile} %{NOTSPACE:targetFile} /A"
+
+    # --- Dtutil.exe ---
+    COPY_DTUTIL_1: "%{WORD:process}\\.exe /FILE %{NOTSPACE:targetFile} /COPY FILE;%{NOTSPACE:targetFile}"
+
+    # --- Msdeploy.exe ---
+    COPY_MSDEPLOY_1: "%{WORD:process}\\.exe -verb:sync -source:filePath=%{NOTSPACE:targetFile} -dest:filePath=%{NOTSPACE:targetFile}"
 
   Credentials:
-    # TODO: Add rules for Credentials
+    # --- Findstr.exe (Searching for Passwords) ---
+    # 정책 XML 파일 등에서 'cpassword' 키워드를 검색하여 암호를 찾는 행위를 탐지합니다.
+    CRED_FINDSTR_1: "%{WORD:process} /S /I cpassword %{NOTSPACE:targetFile}"
+
+    # --- Reg.exe (Registry Hive Dumping) ---
+    # 계정 해시가 담긴 SAM, SECURITY, SYSTEM 하이브를 파일로 저장하는 행위를 탐지합니다.
+    # 중복 변수 기능을 통해 모든 백업 파일 경로(targetFile 1~3)를 추출합니다.
+    CRED_REG_SAVE_1: "reg save HKLM\\\\SECURITY %{NOTSPACE:targetFile} && reg save HKLM\\\\SYSTEM %{NOTSPACE:targetFile} && reg save HKLM\\\\SAM %{NOTSPACE:targetFile}"
+
+    # --- Rpcping.exe (Credential Prompting/Relay) ---
+    # 인증 방식을 NTLM으로 강제하여 자격 증명을 가로채려는 시도를 탐지합니다.
+    CRED_RPCPING_1: "rpcping -s %{NOTSPACE:targetFile} -e %{NOTSPACE:targetFile} -a %{WORD:auth} -u NTLM"
+    CRED_RPCPING_2: "rpcping /s %{NOTSPACE:targetFile} /e %{NOTSPACE:targetFile} /a %{WORD:auth} /u NTLM"
+
+    # --- Cmdkey.exe (List Cached Credentials) ---
+    # 시스템에 저장된 자격 증명 목록을 확인하는 행위를 탐지합니다.
+    CRED_CMDKEY_LIST_1: "cmdkey /list"
 
   Decode:
-    # TODO: Add rules for Decode
+    # --- Certutil.exe (Base64 Decode) ---
+    # 인코딩된 파일(targetFile)과 복구된 원본 파일(targetFile2)을 추출합니다.
+    DECODE_CERTUTIL_1: "%{WORD:process} -decode %{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+
+    # --- Certutil.exe (Hex Decode) ---
+    # 16진수 파일(targetFile)과 복구된 원본 파일(targetFile2)을 추출합니다.
+    DECODE_CERTUTIL_HEX_1: "%{WORD:process} -decodehex %{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
 
   Download:
     # --- Native Tools & Common Bins ---
@@ -206,10 +358,53 @@ grok_patterns:
     DOWN_SHIMGVW_DLL_1: "rundll32\\.exe c:\\\\Windows\\\\System32\\\\shimgvw\\.dll,ImageView_Fullscreen %{NOTSPACE:targetFile}"
     
   Dump:
-    # TODO: Add rules for Dump
+    # --- Diskshadow.exe ---
+    DUMP_DISKSHADOW_1: "%{WORD:process}\\.exe /s %{NOTSPACE:targetFile}"
+
+    # --- Wbadmin.exe ---
+    DUMP_WBADMIN_1: "%{WORD:process} start backup -backupTarget:%{NOTSPACE:targetFile} -include:%{NOTSPACE:targetFile} -quiet"
+    DUMP_WBADMIN_2: "%{WORD:process} start recovery -version: -recoverytarget:%{NOTSPACE:targetFile} -itemtype:file -items:%{NOTSPACE:targetFile} -notRestoreAcl -quiet"
+
+    # --- Comsvcs.dll ---
+    DUMP_COMSVCS_1: "rundll32 C:\\\\windows\\\\system32\\\\comsvcs\\.dll MiniDump %{NOTSPACE:targetFile} %{NOTSPACE:targetFile} full"
+
+    # --- Rdrleakdiag.exe ---
+    DUMP_RDRLEAKDIAG_1: "%{WORD:process}\\.exe /p %{NOTSPACE:targetFile} /o %{NOTSPACE:targetFile} /fullmemdmp /wait 1"
+    DUMP_RDRLEAKDIAG_2: "%{WORD:process}\\.exe /p %{NOTSPACE:targetFile} /o %{NOTSPACE:targetFile} /fullmemdmp /snap"
+
+    # --- DumpMinitool.exe ---
+    DUMP_MINITOOL_1: "%{WORD:process}\\.exe --file %{NOTSPACE:targetFile} --processId %{NOTSPACE:targetFile} --dumpType Full"
+
+    # --- Ntdsutil.exe ---
+    DUMP_NTDSUTIL_1: "%{WORD:process}\\.exe \\\"ac i ntds\\\" \\\"ifm\\\" \\\"create full %{NOTSPACE:targetFile}\\\" q q"
+
+    # --- Tttracer.exe ---
+    DUMP_TTTRACER_1: "%{WORD:process}\\.exe -dumpFull -attach %{NOTSPACE:targetFile}"
+
+    # --- Adplus.exe ---
+    DUMP_ADPLUS_1: "%{WORD:process}\\.exe -hang -pn %{NOTSPACE:targetFile} -o %{NOTSPACE:targetFile} -quiet"
+    DUMP_ADPLUS_2: "%{WORD:process}\\.exe -c %{NOTSPACE:targetFile}"
+
+    # --- Createdump.exe ---
+    DUMP_CREATEDUMP_1: "%{WORD:process}\\.exe -n -f %{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+
+    # --- Dsdbutil.exe ---
+    DUMP_DSDBUTIL_1: "%{WORD:process}\\.exe \\\"activate instance ntds\\\" \\\"snapshot\\\" \\\"create\\\" \\\"quit\\\" \\\"quit\\\""
+    DUMP_DSDBUTIL_2: "%{WORD:process}\\.exe \\\"activate instance ntds\\\" \\\"snapshot\\\" \\\"mount %{NOTSPACE:targetFile}\\\" \\\"quit\\\" \\\"quit\\\""
+    DUMP_DSDBUTIL_3: "%{WORD:process}\\.exe \\\"activate instance ntds\\\" \\\"snapshot\\\" \\\"delete %{NOTSPACE:targetFile}\\\" \\\"quit\\\" \\\"quit\\\""
+    DUMP_DSDBUTIL_4: "%{WORD:process}\\.exe \\\"activate instance ntds\\\" \\\"snapshot\\\" \\\"create\\\" \\\"list all\\\" \\\"mount %{NOTSPACE:targetFile}\\\" \\\"quit\\\" \\\"quit\\\""
+    DUMP_DSDBUTIL_5: "%{WORD:process}\\.exe \\\"activate instance ntds\\\" \\\"snapshot\\\" \\\"list all\\\" \\\"delete %{NOTSPACE:targetFile}\\\" \\\"quit\\\" \\\"quit\\\""
+
+    # --- Dump64.exe ---
+    DUMP_DUMP64_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+
+    # --- Sqldumper.exe ---
+    DUMP_SQLDUMPER_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile} 0 %{NOTSPACE:targetFile}"
 
   Encode:
-    # TODO: Add rules for Encode
+    # --- Certutil.exe ---
+    # 원본 파일(targetFile)과 인코딩된 결과 파일(targetFile2)을 모두 추출합니다.
+    ENCODE_CERTUTIL_1: "%{WORD:process} -encode %{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
     
   Execute:
     # --- Mshta.exe ---
@@ -428,13 +623,65 @@ grok_patterns:
     EXEC_WUAUCLT_1: "wuauclt\\.exe /UpdateDeploymentProvider %{NOTSPACE:targetFile} /RunHandlerComServer"
   
   Reconnaissance:
-    # TODO: Add rules for Reconnaissance
+    # --- Pktmon.exe (Packet Monitoring) ---
+    # 네트워크 패킷 캡처를 시작하거나 특정 포트(예: SMB 445)에 대한 필터를 추가하는 행위를 탐지합니다.
+    RECON_PKTMON_START_1: "pktmon\\.exe start --etw"
+    RECON_PKTMON_FILTER_1: "pktmon\\.exe filter add -p %{NOTSPACE:targetFile}"
+
+    # --- Psr.exe (Problem Steps Recorder) ---
+    # 사용자 몰래 화면 스크린샷과 활동 내역을 압축 파일로 저장하는 행위를 탐지합니다.
+    RECON_PSR_1: "psr\\.exe /start /output %{NOTSPACE:targetFile} /sc 1 /gui 0"
 
   Tamper:
-    # TODO: Add rules for Tamper
+    # --- Cipher.exe (Wiping/Encryption) ---
+    # 삭제된 데이터를 복구 불가능하게 덮어쓰거나(/w) 파일을 암호화(/e)하는 행위를 탐지합니다.
+    TAMPER_CIPHER_1: "%{WORD:process} /w:%{NOTSPACE:targetFile}"
+    TAMPER_CIPHER_2: "%{WORD:process}\\.exe /e %{NOTSPACE:targetFile}"
+
+    # --- Fsutil.exe (Data Zeroing / Journal Deletion) ---
+    # 파일을 0으로 채워 내용을 파괴하거나 시스템 변경 이력(USN Journal)을 삭제하는 행위를 탐지합니다.
+    TAMPER_FSUTIL_ZERO_1: "%{WORD:process}\\.exe file setZeroData offset=0 length=%{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+    TAMPER_FSUTIL_JOURNAL_1: "%{WORD:process}\\.exe usn deletejournal /d %{NOTSPACE:targetFile}"
+
+    # --- FltMC.exe (Filter Driver Unload) ---
+    # 보안 드라이버(예: SysmonDrv)를 로드 해제하여 모니터링을 중단시키는 행위를 탐지합니다.
+    TAMPER_FLTMC_1: "%{WORD:process}\\.exe unload %{NOTSPACE:targetFile}"
 
   UAC_bypass:
-    # TODO: Add rules for UAC bypass
+    # --- ComputerDefaults.exe ---
+    UAC_COMPUTERDEFAULTS_1: "ComputerDefaults\\.exe"
+
+    # --- Eventvwr.exe ---
+    # 복잡한 파이프라인 및 파일 복사 과정을 포함한 패턴
+    UAC_EVENTVWR_1: "ysoserial\\.exe -o raw -f BinaryFormatter -g DataSet -c \\\"%{GREEDYDATA:targetFile}\\\" > %{NOTSPACE:targetFile} & copy %{NOTSPACE:targetFile} %LOCALAPPDATA%\\\\Microsoft\\\\EventV~1\\\\%{NOTSPACE:targetFile} & eventvwr\\.exe"
+    UAC_EVENTVWR_2: "eventvwr\\.exe"
+
+    # --- Mmc.exe ---
+    UAC_MMC_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile}"
+
+    # --- Wsreset.exe ---
+    UAC_WSRESET_1: "wsreset\\.exe"
+
+    # --- Eudcedit.exe ---
+    UAC_EUDCEDIT_1: "eudcedit"
+
+    # --- Iscsicpl.exe ---
+    UAC_ISCSICPL_1: "c:\\\\windows\\\\syswow64\\\\iscsicpl\\.exe"
+    UAC_ISCSICPL_2: "iscsicpl\\.exe"
 
   Upload:
-    # TODO: Add rules for Upload
+    # --- Cmd.exe ---
+    UP_CMD_1: "type %{NOTSPACE:targetFile} > %{NOTSPACE:targetFile}"
+
+    # --- CertReq.exe ---
+    UP_CERTREQ_1: "%{WORD:process} -Post -config %{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+
+    # --- ConfigSecurityPolicy.exe ---
+    UP_CONFIGSECURITYPOLICY_1: "%{WORD:process}\\.exe %{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+
+    # --- DataSvcUtil.exe ---
+    UP_DATASVCUTIL_1: "%{WORD:process} /out:%{NOTSPACE:targetFile} /uri:%{NOTSPACE:targetFile}"
+
+    # --- TestWindowRemoteAgent.exe ---
+    # 공격자의 C&C 서버(호스트) 데이터를 targetFile로 추출합니다.
+    UP_TESTWINDOWREMOTEAGENT_1: "%{WORD:process}\\.exe start -h %{NOTSPACE:targetFile} -p 8000"
