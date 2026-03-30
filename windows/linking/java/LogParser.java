@@ -18,15 +18,18 @@ public class LogParser {
         GROK_TYPES.put("GREEDYDATA", ".*");
     }
 
-    // 카테고리 정보를 포함하는 Rule 객체
     static class GrokRule {
         String category;
         String name;
-        String rawPattern;
+        Pattern compiledRegex;
+        List<String> groupNames;
+        String rawPattern; // 패턴의 길이를 비교하기 위해 원본 패턴 저장
 
-        public GrokRule(String category, String name, String rawPattern) {
+        public GrokRule(String category, String name, Pattern compiledRegex, List<String> groupNames, String rawPattern) {
             this.category = category;
             this.name = name;
+            this.compiledRegex = compiledRegex;
+            this.groupNames = groupNames;
             this.rawPattern = rawPattern;
         }
     }
@@ -41,29 +44,27 @@ public class LogParser {
         System.out.println("[*] 입력된 로그: " + inputLog);
 
         try {
-            // 1. 카테고리가 분류된 YAML 파일 읽기
             List<GrokRule> rules = readCategorizedYamlPatterns("patterns.yml");
             if (rules.isEmpty()) {
                 System.err.println("[!] patterns.yml 에서 패턴을 찾을 수 없습니다.");
                 return;
             }
 
-            // 2. 패턴 매칭 수행
+            // [핵심 해결책] 패턴 길이가 가장 긴(가장 구체적인) 룰부터 먼저 검사하도록 내림차순 정렬!
+            rules.sort((r1, r2) -> Integer.compare(r2.rawPattern.length(), r1.rawPattern.length()));
+
             boolean matched = false;
             for (GrokRule rule : rules) {
-                Pattern compiledRegex = compileGrokToRegex(rule.rawPattern);
-                Matcher matcher = compiledRegex.matcher(inputLog);
+                Matcher matcher = rule.compiledRegex.matcher(inputLog);
 
                 if (matcher.matches() || matcher.find()) {
                     matched = true;
                     System.out.println("========================================");
-                    // 카테고리명의 언더스코어를 공백으로 복원하여 예쁘게 출력
                     System.out.println("[*] 공격 카테고리 : " + rule.category.replace("_", " "));
                     System.out.println("[*] 탐지 시그니처 : " + rule.name);
                     System.out.println("----------------------------------------");
                     
-                    Map<String, Integer> namedGroups = compiledRegex.namedGroups();
-                    for (String groupName : namedGroups.keySet()) {
+                    for (String groupName : rule.groupNames) {
                         String extractedValue = matcher.group(groupName);
                         if (extractedValue != null) {
                             System.out.println("[+] " + groupName + " : " + extractedValue.trim());
@@ -84,19 +85,12 @@ public class LogParser {
         }
     }
 
-    /**
-     * 들여쓰기를 기반으로 카테고리와 룰을 파싱합니다. (의존성 없음)
-     */
     private static List<GrokRule> readCategorizedYamlPatterns(String filePath) throws IOException {
         List<GrokRule> rules = new ArrayList<>();
         List<String> lines = Files.readAllLines(Path.of(filePath));
         
         String currentCategory = "Uncategorized";
-        
-        // 정규식: 공백 2개로 시작하는 키 (카테고리)
         Pattern categoryPattern = Pattern.compile("^\\s{2}([a-zA-Z0-9_]+):\\s*$");
-        // 정규식: 공백 4개 이상으로 시작하는 "키": "값" (실제 룰)
-        Pattern rulePattern = Pattern.compile("^\\s{4,}([a-zA-Z0-9_]+):\\s*\"([^\"]+)\"\\s*$");
 
         for (String line : lines) {
             if (line.trim().isEmpty() || line.trim().startsWith("#") || line.startsWith("grok_patterns:")) {
@@ -105,38 +99,55 @@ public class LogParser {
 
             Matcher catMatcher = categoryPattern.matcher(line);
             if (catMatcher.matches()) {
-                currentCategory = catMatcher.group(1).trim(); // 카테고리 갱신
+                currentCategory = catMatcher.group(1).trim();
                 continue;
             }
 
-            Matcher ruleMatcher = rulePattern.matcher(line);
-            if (ruleMatcher.matches()) {
-                String ruleName = ruleMatcher.group(1);
-                String pattern = ruleMatcher.group(2);
-                rules.add(new GrokRule(currentCategory, ruleName, pattern));
+            int colonIndex = line.indexOf(':');
+            if (colonIndex > 0) {
+                String ruleName = line.substring(0, colonIndex).trim();
+                int firstQuote = line.indexOf('"', colonIndex);
+                int lastQuote = line.lastIndexOf('"');
+
+                if (firstQuote > 0 && lastQuote > firstQuote) {
+                    String rawPattern = line.substring(firstQuote + 1, lastQuote);
+                    rawPattern = rawPattern.replace("\\\\", "\\").replace("\\\"", "\"");
+                    
+                    rules.add(compileGrokRule(currentCategory, ruleName, rawPattern));
+                }
             }
         }
         return rules;
     }
 
-    private static Pattern compileGrokToRegex(String grokPattern) {
+    private static GrokRule compileGrokRule(String category, String ruleName, String grokPattern) {
         Pattern grokSyntaxPattern = Pattern.compile("%\\{([^:]+):([^}]+)\\}");
         Matcher matcher = grokSyntaxPattern.matcher(grokPattern);
         
         StringBuilder javaRegexBuilder = new StringBuilder();
+        List<String> extractedGroupNames = new ArrayList<>();
+        Map<String, Integer> nameCounters = new HashMap<>();
         
         while (matcher.find()) {
             String type = matcher.group(1);
             String rawName = matcher.group(2);
             
             String safeName = rawName.replaceAll("[^a-zA-Z0-9]", "");
-            String typeRegex = GROK_TYPES.getOrDefault(type, ".*");
             
-            String replacement = "(?<" + safeName + ">" + typeRegex + ")";
+            int count = nameCounters.getOrDefault(safeName, 0) + 1;
+            nameCounters.put(safeName, count);
+            String uniqueName = (count == 1) ? safeName : safeName + count;
+            
+            extractedGroupNames.add(uniqueName);
+            
+            String typeRegex = GROK_TYPES.getOrDefault(type, ".*");
+            String replacement = "(?<" + uniqueName + ">" + typeRegex + ")";
             matcher.appendReplacement(javaRegexBuilder, Matcher.quoteReplacement(replacement));
         }
         matcher.appendTail(javaRegexBuilder);
         
-        return Pattern.compile(javaRegexBuilder.toString());
+        Pattern compiledPattern = Pattern.compile(javaRegexBuilder.toString());
+        // 객체 생성 시 원본 패턴의 길이 측정을 위해 grokPattern 을 전달합니다.
+        return new GrokRule(category, ruleName, compiledPattern, extractedGroupNames, grokPattern);
     }
 }
