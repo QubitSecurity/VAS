@@ -1,16 +1,22 @@
-﻿# 테스트할 실행 파일 목록
 $targetExes = @(
-    "cmdl32.exe",
-    "colorcpl.exe",
-    "devicecredentialdeployment.exe",
-    "finger.exe",
-    "ftp.exe",
-    "msdt.exe",
-    "sftp.exe",
-    "wab.exe",
-    "winfile.exe",
-    "wlrmdr.exe",
-    "wmic.exe"
+    "at.exe",
+    "cmd.exe",
+    "findstr.exe",
+    "mmc.exe",
+    "msiexec.exe",
+    "netsh.exe",
+    "ngen.exe",
+    "pktmon.exe",
+    "pnputil.exe",
+    "query.exe",
+    "reg.exe",
+    "regedit.exe",
+    "register-cimprovider.exe",
+    "sc.exe",
+    "schtasks.exe",
+    "ssh.exe",
+    "tar.exe",
+    "wbemtest.exe"
 )
 
 Write-Host "WDAC 실행 차단 테스트를 시작합니다..." -ForegroundColor Cyan
