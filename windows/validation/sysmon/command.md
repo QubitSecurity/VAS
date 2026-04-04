@@ -20,3 +20,14 @@ PS C:\Users\admin\Downloads> certutil.exe -urlcache -split -f https://live.sysin
     + CategoryInfo          : ResourceUnavailable: (:) [], ApplicationFailedException
     + FullyQualifiedErrorId : NativeCommandFailed
 ```
+
+---
+
+
+```text
+PS C:\Users\admin\Downloads> copy C:\Windows\System32\calc.exe C:\Users\Public\test_block.exe
+PS C:\Users\admin\Downloads>
+
+PS C:\Users\admin\Downloads> dir C:\Windows\Temp\
+PS C:\Users\admin\Downloads>
+```
