@@ -12,11 +12,9 @@
 - [Validation](https://github.com/QubitSecurity/VAS/tree/main/windows/validation)
 
 ### RHEL
-- [RHEL](https://github.com/QubitSecurity/VAS/tree/main/redhat)
 - [Validation](https://github.com/QubitSecurity/VAS/tree/main/redhat/validation)
 
 ### Ubuntu
-- [Ubuntu](https://github.com/QubitSecurity/VAS/tree/main/ubuntu)
 - [Validation](https://github.com/QubitSecurity/VAS/tree/main/ubuntu/validation)
 
 ---
