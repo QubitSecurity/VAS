@@ -16,5 +16,5 @@ Windows 환경의 VAS Validation 문서입니다.
 - [W-68: 로그온 시 경고 메시지 제공](./items/W-68.md)
 
 ### Subdirectories
-- [Sysmon Validation](./items/sysmon/)
-- [WDAC Validation](./items/wdac/)
+- [Sysmon Validation](./sysmon/)
+- [WDAC Validation](./wdac/)
