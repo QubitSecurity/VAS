@@ -1,0 +1,43 @@
+## [U-89] 감사 로그 디스크 Full 정책 설정
+
+### 개요
+
+| 항목 | 내용 |
+|------|------|
+| 점검 코드 | U-89 |
+| 항목명 | 감사 로그 디스크 Full 정책 설정 |
+| 위험도 | 상 (High) |
+| 범주 | 보안 관리 |
+
+### 점검 목적
+
+`auditd`가 로그를 기록할 디스크 공간이 부족할 때 시스템을 중단(`halt`)하거나 단일 사용자 모드로 전환(`single`)하도록 설정되면, 공격자가 고의로 감사 로그를 채워 DoS 공격을 유발할 수 있습니다. 디스크 Full 발생 시 안전하게 처리하는 정책으로 설정해야 합니다.
+
+### 점검 기준
+
+| 구분 | 기준 | 설명 |
+|------|------|------|
+| 안전 | disk_full_action이 rotate 또는 syslog로 설정된 경우 | 디스크 Full 시 시스템 중단 없이 로그 순환 |
+| 취약 | disk_full_action이 suspend/single/halt로 설정된 경우 | 디스크 Full 유발로 서비스 중단 가능(DoS) |
+
+## 베이스라인 기준
+
+**안전(양호)**
+
+```
+disk_full_action = rotate
+admin_space_left_action = syslog
+space_left_action = syslog
+```
+
+**취약**
+
+```
+disk_full_action = halt    ← 서비스 중단
+disk_full_action = single  ← 단일 사용자 모드
+disk_full_action = suspend ← 감사 중단
+```
+
+### 참고 문서
+
+- KISA 주요정보통신기반시설 기술적 취약점 분석·평가 방법 상세가이드 (Linux/Unix)
