@@ -27,7 +27,7 @@ grok_patterns:
     ADS_ESENTUTL_2: "%{WORD:process}\\.exe /y \\\\\\\\servername\\\\C\\$\\\\Windows\\\\Temp\\\\file\\.exe /d %{NOTSPACE:targetFile} /o"
 
     # --- Expand.exe ---
-    ADS_EXPAND_1: "%{WORD:process} %{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
+   ADS_EXPAND_1: "(?i)\\bexpand(?:\\.exe)?\\s+%{NOTSPACE:targetFile}\\s+%{NOTSPACE:targetFile}"
 
     # --- Extrac32.exe ---
     ADS_EXTRAC32_1: "%{WORD:process} %{NOTSPACE:targetFile} %{NOTSPACE:targetFile}"
